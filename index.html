@@ -74,7 +74,7 @@
         body.site-loaded header       { opacity: 1;    transform: translateY(0); }
         body.site-loaded .side-r      { opacity: 0.5;  transform: translateX(0); }
         body.site-loaded .project-name{ opacity: 1;    transform: translateY(0); }
-        body.site-loaded .project-tag { opacity: 0.55; }
+        body.site-loaded .project-tag { opacity: 1; }
         body.site-loaded footer       { opacity: 0.35; transform: translateY(0); }
 
         /* ─── CURSOR (desktop only) ─── */
@@ -168,34 +168,32 @@
         @media (max-width: 768px) {
             .projects-scroll { max-height: none; padding: 0; overflow: visible; }
         }
-        .projects-scroll:hover .project-name { opacity: 0.2; color: #fff; }
-        .p-item { margin-bottom: 2px; }
+        .projects-scroll:hover .project-name { opacity: 0.25; }
+        .p-item { margin-bottom: 2px; outline: none; }
+        .p-item:focus { outline: none; }
         .project-name {
             display: block;
             font-family: 'Barlow Condensed', sans-serif;
             font-style: italic; font-weight: 900;
             font-size: clamp(44px, 9vw, 122px);
             line-height: 0.88; text-transform: uppercase;
-            color: #fff; text-decoration: none;
+            color: var(--orange-glow); text-decoration: none;
             letter-spacing: -0.01em;
             transition: opacity 0.22s ease, color 0.22s ease;
-            white-space: nowrap;
-            outline: none;
+            white-space: nowrap; outline: none;
         }
         .project-name:focus { outline: none; }
-        .p-item { outline: none; }
-        .p-item:focus { outline: none; }
         @media (max-width: 768px) {
             .project-name { white-space: normal; font-size: clamp(48px, 13vw, 80px); }
         }
         .p-item:hover .project-name { opacity: 1 !important; color: var(--orange-glow) !important; }
-        .p-item:hover .project-tag { color: rgba(255,255,255,0.85) !important; opacity: 1 !important; }
+        .p-item:hover .project-tag { color: rgba(255,255,255,0.9) !important; opacity: 1 !important; }
         .project-tag {
             display: block;
             font-family: 'Barlow', sans-serif;
             font-size: 10px; font-weight: 300;
             letter-spacing: 0.18em; text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.55);
             transition: color 0.22s ease, opacity 0.22s ease;
             margin: 3px 0 24px 3px;
         }

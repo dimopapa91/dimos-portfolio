@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimos Papageorgiou — Data Engineer & Music Producer</title>
+    <meta name="description" content="Portfolio of Dimos Papageorgiou — Data Engineer and Music Producer based in Manchester, UK.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;1,700;1,800;1,900&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
@@ -22,6 +23,10 @@
             color: #fff;
             overflow: hidden;
             cursor: none;
+        }
+
+        @media (max-width: 768px) {
+            html, body { cursor: auto; overflow: auto; }
         }
 
         /* ─── CANVAS ─── */
@@ -51,16 +56,10 @@
             letter-spacing: 0.25em; text-transform: uppercase;
             opacity: 0.35; margin-bottom: 12px;
         }
-        #loader-track {
-            width: 100%; height: 1px;
-            background: rgba(255,255,255,0.1);
-        }
-        #loader-bar {
-            height: 1px; width: 0%;
-            background: rgba(255,255,255,0.5);
-        }
+        #loader-track { width: 100%; height: 1px; background: rgba(255,255,255,0.1); }
+        #loader-bar   { height: 1px; width: 0%; background: rgba(255,255,255,0.5); }
 
-        /* ─── CURSOR ─── */
+        /* ─── CURSOR (desktop only) ─── */
         #cursor {
             position: fixed; top: 0; left: 0;
             width: 52px; height: 52px;
@@ -75,6 +74,7 @@
                         height 0.35s cubic-bezier(0.34,1.56,0.64,1);
         }
         #cursor.big { width: 110px; height: 110px; }
+        @media (max-width: 768px) { #cursor { display: none; } }
 
         /* ─── HEADER ─── */
         header {
@@ -84,6 +84,9 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+        }
+        @media (max-width: 768px) {
+            header { padding: 20px; position: relative; }
         }
         .hdr-id {
             font-family: 'Barlow', sans-serif;
@@ -96,7 +99,7 @@
             background: #fff; border-radius: 50%;
             margin-top: 9px; opacity: 0.55;
         }
-        nav { display: flex; gap: 5px; }
+        nav { display: flex; gap: 5px; flex-wrap: wrap; }
         nav a {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 400;
@@ -123,6 +126,7 @@
             border-radius: 50%; margin-top: 9px;
             opacity: 0.55; margin-left: auto;
         }
+        @media (max-width: 768px) { .side-r { display: none; } }
 
         /* ─── PROJECT LIST ─── */
         .projects-wrap {
@@ -131,23 +135,36 @@
             padding-left: 38px; padding-right: 230px;
             overflow: hidden;
         }
+        @media (max-width: 768px) {
+            .projects-wrap {
+                position: relative; inset: auto;
+                padding: 40px 20px 80px;
+                display: block;
+            }
+        }
         .projects-scroll {
             overflow-y: auto; max-height: 100vh;
             scrollbar-width: none; padding: 110px 0 90px; width: 100%;
         }
         .projects-scroll::-webkit-scrollbar { display: none; }
+        @media (max-width: 768px) {
+            .projects-scroll { max-height: none; padding: 0; overflow: visible; }
+        }
         .projects-scroll:hover .project-name { opacity: 0.2; color: #fff; }
         .p-item { margin-bottom: 2px; }
         .project-name {
             display: block;
             font-family: 'Barlow Condensed', sans-serif;
             font-style: italic; font-weight: 900;
-            font-size: clamp(52px, 9vw, 122px);
+            font-size: clamp(44px, 9vw, 122px);
             line-height: 0.88; text-transform: uppercase;
             color: #fff; text-decoration: none;
             letter-spacing: -0.01em;
             transition: opacity 0.22s ease, color 0.22s ease;
             white-space: nowrap;
+        }
+        @media (max-width: 768px) {
+            .project-name { white-space: normal; font-size: clamp(48px, 13vw, 80px); }
         }
         .p-item:hover .project-name { opacity: 1 !important; color: var(--orange-glow) !important; }
         .project-tag {
@@ -156,7 +173,7 @@
             font-size: 10px; font-weight: 300;
             letter-spacing: 0.18em; text-transform: uppercase;
             color: rgba(255,255,255,0.35);
-            margin: 3px 0 22px 3px;
+            margin: 3px 0 24px 3px;
         }
 
         /* ─── PREVIEW CARD ─── */
@@ -177,12 +194,19 @@
             text-transform: uppercase; color: rgba(255,255,255,0.8);
             text-align: center; padding: 20px; line-height: 1.6;
         }
+        #preview img {
+            width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0;
+        }
+        @media (max-width: 768px) { #preview { display: none; } }
 
         /* ─── FOOTER ─── */
         footer {
             position: fixed; bottom: 0; left: 0; right: 0;
             padding: 22px 38px; z-index: 5;
             display: flex; justify-content: space-between;
+        }
+        @media (max-width: 768px) {
+            footer { position: relative; padding: 24px 20px 40px; }
         }
         footer span {
             font-family: 'Barlow', sans-serif;
@@ -210,6 +234,7 @@
             font-family: 'Barlow', sans-serif; letter-spacing: 0;
         }
         .overlay-close:hover { background: #fff; color: #000; }
+        @media (max-width: 768px) { .overlay-close { cursor: pointer; top: 16px; right: 16px; } }
 
         /* ── Project overlay ── */
         .po-inner {
@@ -217,8 +242,11 @@
             padding: 110px 38px 80px;
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 80px;
+            gap: 60px;
             align-items: start;
+        }
+        @media (max-width: 768px) {
+            .po-inner { grid-template-columns: 1fr; padding: 80px 20px 60px; gap: 40px; }
         }
         .po-cat {
             font-family: 'Barlow', sans-serif;
@@ -229,19 +257,16 @@
         .po-name {
             font-family: 'Barlow Condensed', sans-serif;
             font-style: italic; font-weight: 900;
-            font-size: clamp(56px, 7.5vw, 108px);
+            font-size: clamp(52px, 7vw, 108px);
             line-height: 0.88; text-transform: uppercase;
-            color: var(--orange-glow); margin-bottom: 44px;
+            color: var(--orange-glow); margin-bottom: 40px;
         }
         .po-desc {
             font-family: 'Barlow', sans-serif;
             font-size: 14px; font-weight: 300; line-height: 1.75;
-            opacity: 0.7; max-width: 500px; margin-bottom: 36px;
+            opacity: 0.7; max-width: 500px; margin-bottom: 32px;
         }
-        .po-tech {
-            display: flex; flex-wrap: wrap; gap: 7px;
-            margin-bottom: 40px;
-        }
+        .po-tech { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 36px; }
         .po-tech span {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 400;
@@ -249,7 +274,7 @@
             border: 1px solid rgba(255,255,255,0.22);
             padding: 5px 12px; opacity: 0.7;
         }
-        .po-links { display: flex; gap: 10px; }
+        .po-links { display: flex; gap: 10px; flex-wrap: wrap; }
         .po-links a {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
@@ -259,12 +284,106 @@
             transition: background 0.2s, color 0.2s;
         }
         .po-links a:hover { background: #fff; color: #000; }
-        .po-image {
+
+        /* Screenshot grid */
+        .po-screenshots {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        .po-screenshots img,
+        .po-screenshot-placeholder {
             width: 100%; aspect-ratio: 16/10;
+            object-fit: cover; border-radius: 2px;
+        }
+        .po-screenshot-placeholder {
             display: flex; align-items: center; justify-content: center;
             font-family: 'Barlow', sans-serif; font-size: 9px;
-            letter-spacing: 0.15em; text-transform: uppercase;
-            opacity: 0.25; border-radius: 2px; margin-top: 20px;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            opacity: 0.2;
+        }
+        .po-artwork {
+            width: 100%; aspect-ratio: 1/1;
+            object-fit: cover; border-radius: 2px;
+            margin-top: 20px;
+        }
+
+        /* ── Music overlay ── */
+        .mo-inner {
+            min-height: 100vh;
+            padding: 110px 38px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .mo-inner { grid-template-columns: 1fr; padding: 80px 20px 60px; gap: 40px; }
+        }
+        .mo-eyebrow {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+            opacity: 0.45; margin-bottom: 18px;
+        }
+        .mo-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-style: italic; font-weight: 900;
+            font-size: clamp(52px, 7vw, 108px);
+            line-height: 0.88; text-transform: uppercase;
+            color: var(--orange-glow); margin-bottom: 24px;
+        }
+        .mo-bio {
+            font-family: 'Barlow', sans-serif;
+            font-size: 14px; font-weight: 300; line-height: 1.75;
+            opacity: 0.7; max-width: 480px; margin-bottom: 32px;
+        }
+        .mo-release {
+            margin-bottom: 32px;
+        }
+        .mo-release-label {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+            opacity: 0.4; margin-bottom: 12px;
+        }
+        .mo-release-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700; font-size: 22px;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+        .mo-release-sub {
+            font-family: 'Barlow', sans-serif;
+            font-size: 10px; font-weight: 300;
+            letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.4;
+        }
+        .mo-links { display: flex; gap: 10px; flex-wrap: wrap; }
+        .mo-links a {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: #fff; text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .mo-links a:hover { background: #fff; color: #000; }
+        .mo-right { position: relative; }
+        .mo-artwork {
+            width: 100%; aspect-ratio: 1/1;
+            object-fit: cover; border-radius: 2px;
+            margin-bottom: 16px;
+            background: #2a0850;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Barlow', sans-serif; font-size: 9px;
+            letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.3;
+        }
+        .mo-artwork img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+        .mo-player {
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .mo-player iframe {
+            width: 100%; border-radius: 2px; display: block;
         }
 
         /* ── About overlay ── */
@@ -274,6 +393,7 @@
             display: flex; flex-direction: column;
             justify-content: center; max-width: 860px;
         }
+        @media (max-width: 768px) { .ao-inner { padding: 80px 20px 60px; } }
         .ao-eyebrow {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -291,15 +411,13 @@
             font-size: 15px; font-weight: 300; line-height: 1.75;
             opacity: 0.7; max-width: 580px; margin-bottom: 44px;
         }
-        .ao-skills {
-            display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 44px;
-        }
+        .ao-skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 44px; }
         .ao-skills span {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
             border: 1px solid rgba(255,255,255,0.22); padding: 5px 12px;
         }
-        .ao-links { display: flex; gap: 10px; }
+        .ao-links { display: flex; gap: 10px; flex-wrap: wrap; }
         .ao-links a {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
@@ -308,6 +426,66 @@
             transition: background 0.2s, color 0.2s;
         }
         .ao-links a:hover { background: #fff; color: #000; }
+
+        /* ── Contact overlay ── */
+        .co-inner {
+            min-height: 100vh;
+            padding: 140px 38px 80px;
+            display: flex; flex-direction: column;
+            justify-content: center; max-width: 680px;
+        }
+        @media (max-width: 768px) { .co-inner { padding: 80px 20px 60px; } }
+        .co-eyebrow {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+            opacity: 0.45; margin-bottom: 20px;
+        }
+        .co-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-style: italic; font-weight: 900;
+            font-size: clamp(52px, 7vw, 100px);
+            line-height: 0.88; text-transform: uppercase;
+            margin-bottom: 44px;
+        }
+        .co-form { display: flex; flex-direction: column; gap: 16px; }
+        .co-form input,
+        .co-form textarea {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            font-family: 'Barlow', sans-serif;
+            font-size: 13px; font-weight: 300;
+            letter-spacing: 0.05em;
+            padding: 14px 18px;
+            outline: none; width: 100%;
+            border-radius: 2px;
+            transition: border-color 0.2s;
+        }
+        .co-form input::placeholder,
+        .co-form textarea::placeholder { color: rgba(255,255,255,0.25); }
+        .co-form input:focus,
+        .co-form textarea:focus { border-color: rgba(255,255,255,0.4); }
+        .co-form textarea { resize: vertical; min-height: 140px; }
+        .co-submit {
+            font-family: 'Barlow', sans-serif;
+            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: #000; background: #fff;
+            border: none; padding: 14px 32px;
+            cursor: pointer; align-self: flex-start;
+            transition: opacity 0.2s;
+            border-radius: 2px;
+        }
+        .co-submit:hover { opacity: 0.85; }
+        .co-success {
+            font-family: 'Barlow', sans-serif;
+            font-size: 12px; letter-spacing: 0.1em;
+            opacity: 0.6; margin-top: 8px; display: none;
+        }
+        .co-note {
+            font-family: 'Barlow', sans-serif;
+            font-size: 10px; letter-spacing: 0.1em;
+            opacity: 0.35; margin-top: 4px; line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -329,9 +507,9 @@
         <div class="dot"></div>
     </div>
     <nav>
-        <a href="#about" id="nav-about">About</a>
-        <a href="https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF" target="_blank">Music</a>
-        <a href="mailto:dimpapa91@gmail.com">Contact</a>
+        <a href="#" id="nav-about">About</a>
+        <a href="#" id="nav-music">Music</a>
+        <a href="#" id="nav-contact">Contact</a>
     </nav>
 </header>
 
@@ -349,7 +527,7 @@
             <a class="project-name" href="#"
                data-project="waveline"
                data-color="#7a2000"
-               data-label="Music analytics web app — Flask · Python · Spotify API">
+               data-label="Music analytics web app">
                 Waveline
             </a>
             <span class="project-tag">Music Analytics · 2024</span>
@@ -359,7 +537,7 @@
             <a class="project-name" href="#"
                data-project="blakenor"
                data-color="#2a0850"
-               data-label="Ambient & electronic music project">
+               data-label="Ambient & electronic music">
                 Blakenor
             </a>
             <span class="project-tag">Original Music · Ongoing</span>
@@ -369,7 +547,7 @@
             <a class="project-name" href="#"
                data-project="pipeline"
                data-color="#062210"
-               data-label="Spotify data pipeline — Python · ETL · Cloud">
+               data-label="Spotify data pipeline">
                 Music Insight Pipeline
             </a>
             <span class="project-tag">Data Engineering · 2025</span>
@@ -384,16 +562,61 @@
 <!-- Footer -->
 <footer>
     <span>© 2026 Dimos Papageorgiou</span>
-    <span>Based in the UK · Available for work</span>
+    <span>Based in Manchester, UK · Available for work</span>
 </footer>
 
-<!-- Project overlay -->
+<!-- ══ PROJECT OVERLAY ══ -->
 <div class="overlay" id="project-overlay">
     <button class="overlay-close" id="project-close">✕</button>
     <div id="project-content"></div>
 </div>
 
-<!-- About overlay -->
+<!-- ══ MUSIC OVERLAY ══ -->
+<div class="overlay" id="music-overlay">
+    <button class="overlay-close" id="music-close">✕</button>
+    <div class="mo-inner">
+        <div class="mo-left">
+            <div class="mo-eyebrow">Music</div>
+            <div class="mo-title">Blakenor</div>
+            <div class="mo-bio">
+                Ambient, lo-fi and electronic soundscapes. Exploring texture, mood
+                and space through layered synthesis, samples and field recordings.
+            </div>
+
+            <div class="mo-release">
+                <div class="mo-release-label">Latest Release</div>
+                <div class="mo-release-title">COLOuRS EP</div>
+                <div class="mo-release-sub">2024 · 5 Tracks · Ambient / Electronic</div>
+            </div>
+
+            <div class="mo-links">
+                <a href="https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF" target="_blank">Spotify ↗</a>
+                <a href="https://music.apple.com" target="_blank">Apple Music ↗</a>
+            </div>
+        </div>
+        <div class="mo-right">
+            <!-- EP Artwork — save your image to assets/images/colours-ep.jpg -->
+            <div class="mo-artwork" id="mo-artwork-wrap">
+                <img src="assets/images/colours-ep.jpg"
+                     alt="COLOuRS EP"
+                     onerror="this.parentElement.innerHTML='COLOuRS EP — Add artwork to assets/images/colours-ep.jpg'"
+                     style="border-radius:2px;">
+            </div>
+            <!-- Spotify player -->
+            <div class="mo-player">
+                <iframe
+                    src="https://open.spotify.com/embed/artist/5RPzIdjn8bJ0heMRMPRUIF?utm_source=generator&theme=0"
+                    height="152"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ ABOUT OVERLAY ══ -->
 <div class="overlay" id="about-overlay">
     <button class="overlay-close" id="about-close">✕</button>
     <div class="ao-inner">
@@ -403,6 +626,7 @@
             Data Engineer and Music Producer based in Manchester, UK.
             I build data pipelines and analytics tools by day, and craft
             electronic soundscapes by night under the name Blakenor.
+            Graduate of the Northcoders Software Engineering Bootcamp (2023).
             Passionate about the intersection of technology and creativity.
         </div>
         <div class="ao-skills">
@@ -412,17 +636,48 @@
             <span>SQL</span>
             <span>Flask</span>
             <span>Spotify API</span>
+            <span>JavaScript</span>
+            <span>Three.js</span>
             <span>Ableton Live</span>
             <span>Sound Design</span>
             <span>Mixing & Mastering</span>
-            <span>JavaScript</span>
-            <span>Three.js</span>
         </div>
         <div class="ao-links">
             <a href="https://github.com/dimopapa91" target="_blank">GitHub ↗</a>
             <a href="https://www.linkedin.com/in/dimos-dimitrios-papageorgiou/" target="_blank">LinkedIn ↗</a>
-            <a href="mailto:dimpapa91@gmail.com">Email ↗</a>
+            <a href="#" id="ao-contact-link">Contact ↗</a>
         </div>
+    </div>
+</div>
+
+<!-- ══ CONTACT OVERLAY ══ -->
+<div class="overlay" id="contact-overlay">
+    <button class="overlay-close" id="contact-close">✕</button>
+    <div class="co-inner">
+        <div class="co-eyebrow">Get in touch</div>
+        <div class="co-title">Let's talk</div>
+
+        <!--
+            Contact form powered by Web3Forms (free, no backend needed).
+            Steps to activate:
+            1. Go to https://web3forms.com
+            2. Enter your email: dimpapa91@gmail.com
+            3. They email you an access key — paste it below replacing YOUR_ACCESS_KEY
+        -->
+        <form class="co-form" id="contact-form"
+              action="https://api.web3forms.com/submit"
+              method="POST">
+            <input type="hidden" name="access_key" value="aae4e202-186f-42d6-95a7-3eeaeb75643b">
+            <input type="hidden" name="subject" value="Portfolio enquiry — Dimos Papageorgiou">
+            <input type="hidden" name="redirect" value="false">
+
+            <input type="text"  name="name"    placeholder="Your name"    required>
+            <input type="email" name="email"   placeholder="Your email"   required>
+            <textarea           name="message" placeholder="Your message" required></textarea>
+            <button type="submit" class="co-submit">Send message</button>
+            <p class="co-success" id="form-success">Message sent — I'll be in touch soon.</p>
+            <p class="co-note">Or email directly: <a href="mailto:dimpapa91@gmail.com" style="color:#fff;opacity:0.6;">dimpapa91@gmail.com</a></p>
+        </form>
     </div>
 </div>
 
@@ -450,7 +705,6 @@ camera.lookAt(0, -3, 0);
 const vertSrc = `
 uniform float u_time;
 varying float v_elev;
-
 vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}
 vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}
 vec4 permute(vec4 x){return mod289(((x*34.)+1.)*x);}
@@ -492,14 +746,12 @@ float snoise(vec3 v){
   m=m*m;
   return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
 }
-
 void main(){
   vec3 pos=position;
   float e=snoise(vec3(pos.x*.038,pos.z*.038,u_time*.07))*15.;
   e+=snoise(vec3(pos.x*.10,pos.z*.09,u_time*.05))*6.;
   e+=snoise(vec3(pos.x*.28,pos.z*.28,u_time*.04))*1.8;
-  pos.y+=e;
-  v_elev=e;
+  pos.y+=e; v_elev=e;
   gl_Position=projectionMatrix*modelViewMatrix*vec4(pos,1.);
 }`;
 
@@ -516,10 +768,7 @@ void main(){
 
 const geo = new THREE.PlaneGeometry(260, 260, 150, 150);
 geo.rotateX(-Math.PI / 2);
-const mat = new THREE.ShaderMaterial({
-    uniforms: { u_time: { value: 0 } },
-    vertexShader: vertSrc, fragmentShader: fragSrc
-});
+const mat = new THREE.ShaderMaterial({ uniforms: { u_time: { value: 0 } }, vertexShader: vertSrc, fragmentShader: fragSrc });
 scene.add(new THREE.Mesh(geo, mat));
 
 window.addEventListener('resize', () => {
@@ -540,7 +789,7 @@ const clock = new THREE.Clock();
 })();
 
 // ═══════════════════════════════════════════════════════════════
-//  LOADING + ENTRANCE ANIMATIONS
+//  LOADING + ENTRANCE
 // ═══════════════════════════════════════════════════════════════
 gsap.set('header', { opacity: 0, y: -20 });
 gsap.set('.side-r', { opacity: 0, x: 20 });
@@ -552,21 +801,15 @@ const loader    = document.getElementById('loader');
 const loaderBar = document.getElementById('loader-bar');
 
 gsap.to(loaderBar, {
-    width: '100%',
-    duration: 1.1,
-    ease: 'power2.inOut',
+    width: '100%', duration: 1.1, ease: 'power2.inOut',
     onComplete: () => {
-        gsap.to(loader, {
-            opacity: 0, duration: 0.5, delay: 0.15,
-            onComplete: () => loader.style.display = 'none'
-        });
-
-        const tl = gsap.timeline({ delay: 0.25 });
-        tl.to('header', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
-          .to('.side-r',      { opacity: 0.5, x: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
-          .to('.project-name',{ opacity: 1, y: 0, duration: 1.0, stagger: 0.12, ease: 'power4.out' }, '-=0.4')
-          .to('.project-tag', { opacity: 0.35, duration: 0.6, stagger: 0.1 }, '-=0.7')
-          .to('footer',       { opacity: 0.35, y: 0, duration: 0.6 }, '-=0.5');
+        gsap.to(loader, { opacity: 0, duration: 0.5, delay: 0.1, onComplete: () => loader.style.display = 'none' });
+        const tl = gsap.timeline({ delay: 0.2 });
+        tl.to('header',        { opacity: 1,    y: 0,  duration: 0.8,  ease: 'power3.out' })
+          .to('.side-r',       { opacity: 0.5,  x: 0,  duration: 0.7,  ease: 'power3.out' }, '-=0.5')
+          .to('.project-name', { opacity: 1,    y: 0,  duration: 1.0,  stagger: 0.12, ease: 'power4.out' }, '-=0.4')
+          .to('.project-tag',  { opacity: 0.35,        duration: 0.6,  stagger: 0.1 }, '-=0.7')
+          .to('footer',        { opacity: 0.35, y: 0,  duration: 0.6 }, '-=0.5');
     }
 });
 
@@ -590,42 +833,60 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
 const projectData = {
     waveline: {
         name: 'Waveline',
-        year: '2024',
-        category: 'Music Analytics',
+        year: '2024', category: 'Music Analytics',
         description: 'A web app that connects to your Spotify account and surfaces deep insights into your music taste — artist profiles, listening stats, taste comparisons, and a weekly email digest. Built with Flask and Python, pulling live data from Spotify and Last.fm.',
-        tech: ['Flask', 'Python', 'Spotify API', 'Last.fm API', 'SQLite', 'Jinja2', 'HTML/CSS'],
+        tech: ['Flask', 'Python', 'Spotify API', 'Last.fm API', 'SQLite', 'Jinja2'],
         links: [{ label: 'GitHub ↗', href: 'https://github.com/dimopapa91' }],
-        color: '#7a2000'
+        color: '#7a2000',
+        // Save screenshots to assets/images/ — waveline-1.jpg through waveline-4.jpg
+        images: ['assets/images/waveline-1.jpg','assets/images/waveline-2.jpg','assets/images/waveline-3.jpg','assets/images/waveline-4.jpg']
     },
     blakenor: {
         name: 'Blakenor',
-        year: 'Ongoing',
-        category: 'Original Music',
+        year: 'Ongoing', category: 'Original Music',
         description: 'Ambient, lo-fi and electronic soundscapes. Blakenor is my music project — exploring texture, mood and space through layered synthesis, samples and field recordings. Available on Spotify, Apple Music and all major platforms.',
         tech: ['Ableton Live', 'Synthesis', 'Sound Design', 'Mixing', 'Mastering'],
         links: [{ label: 'Spotify ↗', href: 'https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF' }],
-        color: '#2a0850'
+        color: '#2a0850',
+        artwork: 'assets/images/colours-ep.jpg'
     },
     pipeline: {
         name: 'Music Insight Pipeline',
-        year: '2025',
-        category: 'Data Engineering',
+        year: '2025', category: 'Data Engineering',
         description: 'An automated ETL pipeline that ingests listening history and track metadata from the Spotify API, processes it through a transformation layer, stores it in a structured database, and surfaces insights about music trends and personal taste over time.',
-        tech: ['Python', 'ETL', 'Spotify API', 'Data Engineering', 'SQL', 'Cloud'],
+        tech: ['Python', 'ETL', 'Spotify API', 'SQL', 'Data Engineering', 'Cloud'],
         links: [{ label: 'GitHub ↗', href: 'https://github.com/dimopapa91' }],
         color: '#062210'
     }
 };
 
 // ═══════════════════════════════════════════════════════════════
-//  OVERLAY: PROJECT
+//  OVERLAY HELPERS
 // ═══════════════════════════════════════════════════════════════
+function openOverlay(el) {
+    gsap.fromTo(el, { xPercent: 100 }, { xPercent: 0, duration: 0.75, ease: 'power4.inOut' });
+}
+function closeOverlay(el) {
+    gsap.to(el, { xPercent: 100, duration: 0.6, ease: 'power4.inOut' });
+}
+
+// Project
 const projectOverlay = document.getElementById('project-overlay');
 const projectContent = document.getElementById('project-content');
 
 function openProject(key) {
     const p = projectData[key];
     if (!p) return;
+
+    let mediaHTML = '';
+    if (p.images) {
+        mediaHTML = `<div class="po-screenshots">
+            ${p.images.map(src => `<img src="${src}" alt="" onerror="this.style.display='none'">`).join('')}
+        </div>`;
+    } else if (p.artwork) {
+        mediaHTML = `<img class="po-artwork" src="${p.artwork}" alt="${p.name}" onerror="this.style.display='none'">`;
+    }
+
     projectContent.innerHTML = `
         <div class="po-inner">
             <div class="po-left">
@@ -635,49 +896,65 @@ function openProject(key) {
                 <div class="po-tech">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
                 <div class="po-links">${p.links.map(l => `<a href="${l.href}" target="_blank">${l.label}</a>`).join('')}</div>
             </div>
-            <div class="po-right">
-                <div class="po-image" style="background:${p.color}30; border:1px solid ${p.color}50;">
-                    Screenshots coming soon
-                </div>
-            </div>
+            <div class="po-right">${mediaHTML}</div>
         </div>`;
-    gsap.fromTo(projectOverlay,
-        { xPercent: 100 },
-        { xPercent: 0, duration: 0.75, ease: 'power4.inOut' }
-    );
+    openOverlay(projectOverlay);
 }
 
-function closeProject() {
-    gsap.to(projectOverlay, { xPercent: 100, duration: 0.6, ease: 'power4.inOut' });
-}
+document.getElementById('project-close').addEventListener('click', () => closeOverlay(projectOverlay));
 
-document.getElementById('project-close').addEventListener('click', closeProject);
+// Music
+const musicOverlay = document.getElementById('music-overlay');
+document.getElementById('nav-music').addEventListener('click', e => { e.preventDefault(); openOverlay(musicOverlay); });
+document.getElementById('music-close').addEventListener('click', () => closeOverlay(musicOverlay));
 
-// ═══════════════════════════════════════════════════════════════
-//  OVERLAY: ABOUT
-// ═══════════════════════════════════════════════════════════════
+// About
 const aboutOverlay = document.getElementById('about-overlay');
+document.getElementById('nav-about').addEventListener('click', e => { e.preventDefault(); openOverlay(aboutOverlay); });
+document.getElementById('about-close').addEventListener('click', () => closeOverlay(aboutOverlay));
 
-function openAbout() {
-    gsap.fromTo(aboutOverlay,
-        { xPercent: 100 },
-        { xPercent: 0, duration: 0.75, ease: 'power4.inOut' }
-    );
-}
+// Contact
+const contactOverlay = document.getElementById('contact-overlay');
+document.getElementById('nav-contact').addEventListener('click', e => { e.preventDefault(); openOverlay(contactOverlay); });
+document.getElementById('contact-close').addEventListener('click', () => closeOverlay(contactOverlay));
 
-function closeAbout() {
-    gsap.to(aboutOverlay, { xPercent: 100, duration: 0.6, ease: 'power4.inOut' });
-}
-
-document.getElementById('about-close').addEventListener('click', closeAbout);
-
-document.getElementById('nav-about').addEventListener('click', e => {
+// About → Contact link
+document.getElementById('ao-contact-link').addEventListener('click', e => {
     e.preventDefault();
-    openAbout();
+    closeOverlay(aboutOverlay);
+    setTimeout(() => openOverlay(contactOverlay), 400);
 });
 
 // ═══════════════════════════════════════════════════════════════
-//  HOVER + CLICK INTERACTIONS
+//  CONTACT FORM
+// ═══════════════════════════════════════════════════════════════
+document.getElementById('contact-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.co-submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: new FormData(e.target)
+        });
+        const data = await res.json();
+        if (data.success) {
+            e.target.reset();
+            document.getElementById('form-success').style.display = 'block';
+            btn.textContent = 'Sent ✓';
+        } else {
+            btn.textContent = 'Error — try emailing directly';
+            btn.disabled = false;
+        }
+    } catch {
+        btn.textContent = 'Error — try emailing directly';
+        btn.disabled = false;
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
+//  HOVER + CLICK
 // ═══════════════════════════════════════════════════════════════
 const preview   = document.getElementById('preview');
 const prevInner = document.getElementById('preview-inner');
@@ -704,9 +981,12 @@ document.querySelectorAll('nav a, .overlay-close').forEach(el => {
     el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
 
-// Close overlays on Escape
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeProject(); closeAbout(); }
+    if (e.key !== 'Escape') return;
+    closeOverlay(projectOverlay);
+    closeOverlay(musicOverlay);
+    closeOverlay(aboutOverlay);
+    closeOverlay(contactOverlay);
 });
 </script>
 </body>

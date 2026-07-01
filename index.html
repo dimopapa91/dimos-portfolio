@@ -74,7 +74,7 @@
         body.site-loaded header       { opacity: 1;    transform: translateY(0); }
         body.site-loaded .side-r      { opacity: 0.5;  transform: translateX(0); }
         body.site-loaded .project-name{ opacity: 1;    transform: translateY(0); }
-        body.site-loaded .project-tag { opacity: 0.35; }
+        body.site-loaded .project-tag { opacity: 0.55; }
         body.site-loaded footer       { opacity: 0.35; transform: translateY(0); }
 
         /* ─── CURSOR (desktop only) ─── */
@@ -196,14 +196,14 @@
 
         /* ─── PREVIEW CARD ─── */
         #preview {
-            position: fixed; right: 38px; top: 50%;
-            transform: translateY(-50%) scale(0.92);
-            width: 210px; aspect-ratio: 4/3;
+            position: fixed; left: 50%; bottom: 48px;
+            transform: translateX(-50%) scale(0.92);
+            width: 260px; aspect-ratio: 16/9;
             border-radius: 2px; overflow: hidden;
             pointer-events: none; z-index: 6; opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        #preview.show { opacity: 1; transform: translateY(-50%) scale(1); }
+        #preview.show { opacity: 1; transform: translateX(-50%) scale(1); }
         #preview-inner {
             width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
@@ -238,16 +238,21 @@
             background: #060100;
             transform: translateX(100%);
             transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
-            overflow-y: auto; scrollbar-width: none;
+            display: flex; flex-direction: column;
+            overflow: hidden;
         }
         .overlay.open { transform: translateX(0); }
-        .overlay::-webkit-scrollbar { display: none; }
+        /* scrollable body inside each overlay */
+        .overlay-body {
+            flex: 1; overflow-y: auto; scrollbar-width: none;
+        }
+        .overlay-body::-webkit-scrollbar { display: none; }
 
         .overlay-close {
-            position: fixed; top: 28px; right: 38px;
+            position: absolute; top: 28px; right: 38px;
             background: none; border: 1px solid rgba(255,255,255,0.3);
             color: #fff; font-size: 11px;
-            width: 34px; height: 34px;
+            width: 34px; height: 34px; flex-shrink: 0;
             border-radius: 50%; cursor: none; z-index: 55;
             display: flex; align-items: center; justify-content: center;
             transition: background 0.2s, color 0.2s;
@@ -588,13 +593,13 @@
 <!-- ══ PROJECT OVERLAY ══ -->
 <div class="overlay" id="project-overlay">
     <button class="overlay-close" id="project-close">✕</button>
-    <div id="project-content"></div>
+    <div class="overlay-body" id="project-content"></div>
 </div>
 
 <!-- ══ MUSIC OVERLAY ══ -->
 <div class="overlay" id="music-overlay">
     <button class="overlay-close" id="music-close">✕</button>
-    <div class="mo-inner">
+    <div class="overlay-body"><div class="mo-inner">
         <div class="mo-left">
             <div class="mo-eyebrow">Music</div>
             <div class="mo-title">Blakenor</div>
@@ -633,13 +638,13 @@
                 </iframe>
             </div>
         </div>
-    </div>
+    </div></div>
 </div>
 
 <!-- ══ ABOUT OVERLAY ══ -->
 <div class="overlay" id="about-overlay">
     <button class="overlay-close" id="about-close">✕</button>
-    <div class="ao-inner">
+    <div class="overlay-body"><div class="ao-inner">
         <div class="ao-eyebrow">About</div>
         <div class="ao-name">Dimos<br>Papageorgiou</div>
         <div class="ao-bio">
@@ -670,13 +675,13 @@
             <a href="https://www.linkedin.com/in/dimos-dimitrios-papageorgiou/" target="_blank">LinkedIn ↗</a>
             <a href="#" id="ao-contact-link">Contact ↗</a>
         </div>
-    </div>
+    </div></div>
 </div>
 
 <!-- ══ CONTACT OVERLAY ══ -->
 <div class="overlay" id="contact-overlay">
     <button class="overlay-close" id="contact-close">✕</button>
-    <div class="co-inner">
+    <div class="overlay-body"><div class="co-inner">
         <div class="co-eyebrow">Get in touch</div>
         <div class="co-title">Let's talk</div>
 
@@ -701,7 +706,7 @@
             <p class="co-success" id="form-success">Message sent — I'll be in touch soon.</p>
             <p class="co-note">Or email directly: <a href="mailto:dimpapa91@gmail.com" style="color:#fff;opacity:0.6;">dimpapa91@gmail.com</a></p>
         </form>
-    </div>
+    </div></div>
 </div>
 
 <!-- REVEAL: runs before CDNs, no dependencies -->
@@ -930,6 +935,13 @@ document.getElementById('about-close').addEventListener('click', () => closeOver
 const contactOverlay = document.getElementById('contact-overlay');
 document.getElementById('nav-contact').addEventListener('click', e => { e.preventDefault(); openOverlay(contactOverlay); });
 document.getElementById('contact-close').addEventListener('click', () => closeOverlay(contactOverlay));
+
+// Escape key closes any open overlay
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.overlay.open').forEach(el => closeOverlay(el));
+    }
+});
 
 // About → Contact link
 document.getElementById('ao-contact-link').addEventListener('click', e => {

@@ -105,6 +105,7 @@
         }
         @media (max-width: 768px) {
             header { padding: 20px; position: relative; }
+            nav a { padding: 8px 16px; font-size: 10px; }
         }
         .hdr-id {
             font-family: 'Barlow', sans-serif;
@@ -169,6 +170,9 @@
             .projects-scroll { max-height: none; padding: 0; overflow: visible; }
         }
         .projects-scroll:hover .project-name { opacity: 0.2; color: #fff; }
+        @media (max-width: 768px) {
+            .projects-scroll:hover .project-name { opacity: 1; }
+        }
         .p-item { margin-bottom: 2px; outline: none; }
         .p-item:focus { outline: none; }
         .project-name {
@@ -399,7 +403,7 @@
             min-height: 100vh;
             padding: 140px 38px 80px;
             display: flex; flex-direction: column;
-            justify-content: center; max-width: 860px;
+            justify-content: flex-start; max-width: 960px;
         }
         @media (max-width: 768px) { .ao-inner { padding: 80px 20px 60px; } }
         .ao-eyebrow {
@@ -435,6 +439,43 @@
         }
         .ao-links a:hover { background: #fff; color: #000; }
 
+        /* ── About education section ── */
+        .ao-education { margin-top: 48px; }
+        .ao-edu-label {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+            opacity: 0.45; margin-bottom: 16px;
+        }
+        .ao-edu-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            margin-bottom: 28px;
+        }
+        @media (max-width: 768px) { .ao-edu-grid { grid-template-columns: 1fr; } }
+        .ao-edu-card {
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px; display: flex; gap: 14px; align-items: flex-start;
+        }
+        .ao-edu-img {
+            width: 54px; height: 54px;
+            object-fit: cover; border-radius: 2px;
+            flex-shrink: 0; opacity: 0.85;
+        }
+        .ao-edu-inst {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700; font-size: 14px;
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;
+        }
+        .ao-edu-degree {
+            font-family: 'Barlow', sans-serif;
+            font-size: 11px; font-weight: 300;
+            letter-spacing: 0.06em; opacity: 0.6; margin-bottom: 4px;
+        }
+        .ao-edu-year {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; font-weight: 300;
+            letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.35;
+        }
+
         /* ── Contact overlay ── */
         .co-inner {
             min-height: 100vh;
@@ -468,6 +509,10 @@
             outline: none; width: 100%;
             border-radius: 2px;
             transition: border-color 0.2s;
+        }
+        @media (max-width: 768px) {
+            .co-form input, .co-form textarea { font-size: 16px; }
+            .co-submit { width: 100%; text-align: center; }
         }
         .co-form input::placeholder,
         .co-form textarea::placeholder { color: rgba(255,255,255,0.25); }
@@ -656,6 +701,55 @@
             <a href="https://www.linkedin.com/in/dimos-dimitrios-papageorgiou/" target="_blank">LinkedIn ↗</a>
             <a href="#" id="ao-contact-link">Contact ↗</a>
         </div>
+
+        <div class="ao-education">
+            <div class="ao-edu-label">Education</div>
+            <div class="ao-edu-grid">
+                <div class="ao-edu-card">
+                    <img class="ao-edu-img" src="assets/images/northcoders.jpg" alt="Northcoders" onerror="this.style.display='none'">
+                    <div>
+                        <div class="ao-edu-inst">Northcoders</div>
+                        <div class="ao-edu-degree">Software Engineering Bootcamp</div>
+                        <div class="ao-edu-year">2023</div>
+                    </div>
+                </div>
+                <div class="ao-edu-card">
+                    <img class="ao-edu-img" src="assets/images/salford-uni.jpg" alt="University of Salford" onerror="this.style.display='none'">
+                    <div>
+                        <div class="ao-edu-inst">University of Salford</div>
+                        <div class="ao-edu-degree">BSc Creative &amp; Music Technology</div>
+                        <div class="ao-edu-year">2016 – 2019</div>
+                    </div>
+                </div>
+                <div class="ao-edu-card">
+                    <img class="ao-edu-img" src="assets/images/greece-uni.jpg" alt="University" onerror="this.style.display='none'">
+                    <div>
+                        <div class="ao-edu-inst">Greece</div>
+                        <div class="ao-edu-degree">Prior University Studies</div>
+                        <div class="ao-edu-year">2010 – 2015</div>
+                    </div>
+                </div>
+                <div class="ao-edu-card">
+                    <img class="ao-edu-img" src="assets/images/dimos-papageorgiou-certificate.jpg" alt="Certificate" onerror="this.style.display='none'">
+                    <div>
+                        <div class="ao-edu-inst">Northcoders</div>
+                        <div class="ao-edu-degree">Software Engineering Certificate</div>
+                        <div class="ao-edu-year">2023</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ao-edu-label">Certifications</div>
+            <div class="ao-edu-grid">
+                <div class="ao-edu-card">
+                    <img class="ao-edu-img" src="assets/images/claude-certificate.jpg" alt="Claude Certificate" onerror="this.style.display='none'">
+                    <div>
+                        <div class="ao-edu-inst">Anthropic</div>
+                        <div class="ao-edu-degree">Claude AI Developer Certification</div>
+                        <div class="ao-edu-year">2024</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div></div>
 </div>
 
@@ -708,8 +802,11 @@ setTimeout(revealSite, 1200);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
-//  TERRAIN BACKGROUND
+//  TERRAIN BACKGROUND (desktop only — skipped on mobile)
 // ═══════════════════════════════════════════════════════════════
+const isMobile = window.innerWidth <= 768;
+if (isMobile) { document.getElementById('bg').style.display = 'none'; }
+if (!isMobile) {
 const canvas   = document.getElementById('bg');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -809,6 +906,8 @@ const clock = new THREE.Clock();
     renderer.render(scene, camera);
 })();
 
+} // end !isMobile
+
 // loader reference (revealSite already defined and scheduled before CDNs)
 const loader = document.getElementById('loader');
 
@@ -851,9 +950,12 @@ const projectData = {
     pipeline: {
         name: 'Music Insight Pipeline',
         year: '2025', category: 'Data Engineering',
-        description: 'An automated ETL pipeline that ingests listening history and track metadata from the Spotify API, processes it through a transformation layer, stores it in a structured database, and surfaces insights about music trends and personal taste over time.',
-        tech: ['Python', 'ETL', 'Spotify API', 'SQL', 'Data Engineering', 'Cloud'],
-        links: [{ label: 'GitHub ↗', href: 'https://github.com/dimopapa91' }],
+        description: 'A fully automated ETL data pipeline that ingests artist and track metadata from Spotify, Last.fm, and Deezer, runs AI-generated analysis via the Anthropic Claude API, and stores structured results in PostgreSQL with JSONB. Includes a Flask dashboard with artist profiles, genre trend tracking, artist comparison, taste profiling, and a weekly automated email digest. Scheduled daily via APScheduler — the complete backend data layer powering the Waveline platform.',
+        tech: ['Python', 'Flask', 'PostgreSQL', 'ETL', 'Spotify API', 'Last.fm API', 'Deezer API', 'Anthropic Claude API', 'APScheduler', 'psycopg2'],
+        links: [
+            { label: 'GitHub ↗', href: 'https://github.com/dimopapa91/music-insight-pipeline' },
+            { label: 'View Waveline ↗', href: '#' }
+        ],
         color: '#062210'
     }
 };

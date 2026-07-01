@@ -50,7 +50,9 @@
             justify-content: flex-end;
             padding: 38px;
             pointer-events: none;
+            transition: opacity 0.5s ease;
         }
+        #loader.hidden { opacity: 0; }
         #loader-label {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 300;
@@ -58,7 +60,22 @@
             opacity: 0.35; margin-bottom: 12px;
         }
         #loader-track { width: 100%; height: 1px; background: rgba(255,255,255,0.1); }
-        #loader-bar   { height: 1px; width: 0%; background: rgba(255,255,255,0.5); }
+        #loader-bar   { height: 1px; width: 0%; background: rgba(255,255,255,0.5);
+                        animation: loader-fill 1.0s ease forwards; }
+        @keyframes loader-fill { from { width: 0%; } to { width: 100%; } }
+
+        /* ─── ENTRANCE ANIMATIONS (CSS, no GSAP dependency) ─── */
+        header, footer { opacity: 0; transition: opacity 0.8s ease, transform 0.8s ease; transform: translateY(-20px); }
+        .side-r        { opacity: 0; transition: opacity 0.7s ease, transform 0.7s ease; transform: translateX(20px); }
+        .project-name  { opacity: 0; transition: opacity 1.0s ease, transform 1.0s ease; transform: translateY(60px); }
+        .project-tag   { opacity: 0; transition: opacity 0.6s ease; }
+        footer         { transform: translateY(12px); }
+
+        body.site-loaded header       { opacity: 1;    transform: translateY(0); }
+        body.site-loaded .side-r      { opacity: 0.5;  transform: translateX(0); }
+        body.site-loaded .project-name{ opacity: 1;    transform: translateY(0); }
+        body.site-loaded .project-tag { opacity: 0.35; }
+        body.site-loaded footer       { opacity: 0.35; transform: translateY(0); }
 
         /* ─── CURSOR (desktop only) ─── */
         #cursor {
@@ -685,28 +702,6 @@
     </div>
 </div>
 
-<!-- Safety: pure JS fallback in case CDNs are slow — runs before GSAP/Three.js load -->
-<script>
-(function() {
-    function forceReveal() {
-        var loader = document.getElementById('loader');
-        if (!loader || loader.style.display === 'none') return;
-        loader.style.transition = 'opacity 0.4s';
-        loader.style.opacity = '0';
-        setTimeout(function() { loader.style.display = 'none'; }, 400);
-        ['header','footer'].forEach(function(sel) {
-            var el = document.querySelector(sel);
-            if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
-        });
-        document.querySelectorAll('.project-name,.project-tag,.side-r').forEach(function(el) {
-            el.style.opacity = '1'; el.style.transform = 'none';
-        });
-    }
-    // Guarantee the page is visible after 3s no matter what
-    setTimeout(forceReveal, 3000);
-})();
-</script>
-
 <!-- THREE.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- GSAP -->
@@ -815,36 +810,20 @@ const clock = new THREE.Clock();
 })();
 
 // ═══════════════════════════════════════════════════════════════
-//  LOADING + ENTRANCE
+//  LOADING + ENTRANCE — pure JS/CSS, no GSAP dependency
 // ═══════════════════════════════════════════════════════════════
-gsap.set('header', { opacity: 0, y: -20 });
-gsap.set('.side-r', { opacity: 0, x: 20 });
-gsap.set('.project-name', { opacity: 0, y: 70 });
-gsap.set('.project-tag', { opacity: 0 });
-gsap.set('footer', { opacity: 0, y: 12 });
-
-const loader    = document.getElementById('loader');
-const loaderBar = document.getElementById('loader-bar');
+const loader = document.getElementById('loader');
 
 function revealSite() {
     if (revealSite._done) return;
     revealSite._done = true;
-    gsap.to(loader, { opacity: 0, duration: 0.4, onComplete: () => loader.style.display = 'none' });
-    const tl = gsap.timeline({ delay: 0.1 });
-    tl.to('header',        { opacity: 1,    y: 0,  duration: 0.8,  ease: 'power3.out' })
-      .to('.side-r',       { opacity: 0.5,  x: 0,  duration: 0.7,  ease: 'power3.out' }, '-=0.5')
-      .to('.project-name', { opacity: 1,    y: 0,  duration: 1.0,  stagger: 0.12, ease: 'power4.out' }, '-=0.4')
-      .to('.project-tag',  { opacity: 0.35,        duration: 0.6,  stagger: 0.1 }, '-=0.7')
-      .to('footer',        { opacity: 0.35, y: 0,  duration: 0.6 }, '-=0.5');
+    loader.classList.add('hidden');
+    setTimeout(() => { loader.style.display = 'none'; }, 520);
+    document.body.classList.add('site-loaded');
 }
 
-gsap.to(loaderBar, {
-    width: '100%', duration: 0.9, ease: 'power2.inOut',
-    onComplete: revealSite
-});
-
-// Safety fallback: force-reveal after 2.5s regardless
-setTimeout(revealSite, 2500);
+// Reveal after 1.2s (matches CSS loader-fill animation)
+setTimeout(revealSite, 1200);
 
 // ═══════════════════════════════════════════════════════════════
 //  CURSOR

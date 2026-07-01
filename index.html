@@ -684,6 +684,28 @@
     </div>
 </div>
 
+<!-- Safety: pure JS fallback in case CDNs are slow — runs before GSAP/Three.js load -->
+<script>
+(function() {
+    function forceReveal() {
+        var loader = document.getElementById('loader');
+        if (!loader || loader.style.display === 'none') return;
+        loader.style.transition = 'opacity 0.4s';
+        loader.style.opacity = '0';
+        setTimeout(function() { loader.style.display = 'none'; }, 400);
+        ['header','footer'].forEach(function(sel) {
+            var el = document.querySelector(sel);
+            if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+        });
+        document.querySelectorAll('.project-name,.project-tag,.side-r').forEach(function(el) {
+            el.style.opacity = '1'; el.style.transform = 'none';
+        });
+    }
+    // Guarantee the page is visible after 3s no matter what
+    setTimeout(forceReveal, 3000);
+})();
+</script>
+
 <!-- THREE.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- GSAP -->

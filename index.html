@@ -75,7 +75,7 @@
         body.site-loaded .side-r      { opacity: 0.5;  transform: translateX(0); }
         body.site-loaded .project-name{ opacity: 1;    transform: translateY(0); }
         body.site-loaded .project-tag { opacity: 1; }
-        body.site-loaded footer       { opacity: 0.35; transform: translateY(0); }
+        body.site-loaded footer       { opacity: 0.65; transform: translateY(0); }
 
         /* ─── CURSOR (desktop only) ─── */
         #cursor {
@@ -110,7 +110,7 @@
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 300;
             letter-spacing: 0.2em; text-transform: uppercase;
-            line-height: 1.8; opacity: 0.55;
+            line-height: 1.8; opacity: 0.75;
         }
         .hdr-id .dot {
             width: 4px; height: 4px;
@@ -136,7 +136,7 @@
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 300;
             letter-spacing: 0.2em; text-transform: uppercase;
-            line-height: 1.8; opacity: 0.5; text-align: right;
+            line-height: 1.8; opacity: 0.75; text-align: right;
         }
         .side-r.mid { top: 50%; transform: translateY(-50%); }
         .side-r .dot {
@@ -168,7 +168,7 @@
         @media (max-width: 768px) {
             .projects-scroll { max-height: none; padding: 0; overflow: visible; }
         }
-        .projects-scroll:hover .project-name { opacity: 0.25; }
+        .projects-scroll:hover .project-name { opacity: 0.2; color: #fff; }
         .p-item { margin-bottom: 2px; outline: none; }
         .p-item:focus { outline: none; }
         .project-name {
@@ -177,7 +177,7 @@
             font-style: italic; font-weight: 900;
             font-size: clamp(44px, 9vw, 122px);
             line-height: 0.88; text-transform: uppercase;
-            color: var(--orange-glow); text-decoration: none;
+            color: #fff; text-decoration: none;
             letter-spacing: -0.01em;
             transition: opacity 0.22s ease, color 0.22s ease;
             white-space: nowrap; outline: none;

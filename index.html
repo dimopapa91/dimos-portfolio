@@ -25,18 +25,39 @@
         }
 
         /* ─── CANVAS ─── */
-        #bg {
-            position: fixed; inset: 0;
-            z-index: 0;
+        #bg { position: fixed; inset: 0; z-index: 0; }
+
+        /* ─── GRAIN ─── */
+        #grain {
+            position: fixed; inset: 0; z-index: 1;
+            pointer-events: none; opacity: 0.055;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* ─── GRAIN OVERLAY ─── */
-        #grain {
+        /* ─── LOADING SCREEN ─── */
+        #loader {
             position: fixed; inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.055;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+            background: var(--bg);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 38px;
+        }
+        #loader-label {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; font-weight: 300;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            opacity: 0.35; margin-bottom: 12px;
+        }
+        #loader-track {
+            width: 100%; height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+        #loader-bar {
+            height: 1px; width: 0%;
+            background: rgba(255,255,255,0.5);
         }
 
         /* ─── CURSOR ─── */
@@ -49,7 +70,7 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            will-change: left, top, width, height;
+            will-change: left, top;
             transition: width 0.35s cubic-bezier(0.34,1.56,0.64,1),
                         height 0.35s cubic-bezier(0.34,1.56,0.64,1);
         }
@@ -64,28 +85,22 @@
             justify-content: space-between;
             align-items: flex-start;
         }
-
         .hdr-id {
             font-family: 'Barlow', sans-serif;
-            font-size: 9px;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            line-height: 1.8;
-            opacity: 0.55;
+            font-size: 9px; font-weight: 300;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            line-height: 1.8; opacity: 0.55;
         }
         .hdr-id .dot {
             width: 4px; height: 4px;
             background: #fff; border-radius: 50%;
             margin-top: 9px; opacity: 0.55;
         }
-
         nav { display: flex; gap: 5px; }
         nav a {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 400;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+            letter-spacing: 0.18em; text-transform: uppercase;
             color: #fff; text-decoration: none;
             border: 1px solid rgba(255,255,255,0.3);
             padding: 5px 13px;
@@ -93,128 +108,215 @@
         }
         nav a:hover { background: #fff; color: #000; border-color: #fff; }
 
-        /* ─── SIDE LABELS ─── */
+        /* ─── SIDE LABEL ─── */
         .side-r {
             position: fixed; right: 38px;
             z-index: 5;
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            line-height: 1.8; opacity: 0.5;
-            text-align: right;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            line-height: 1.8; opacity: 0.5; text-align: right;
         }
         .side-r.mid { top: 50%; transform: translateY(-50%); }
         .side-r .dot {
-            width: 4px; height: 4px;
-            background: #fff; border-radius: 50%;
-            margin-top: 9px; opacity: 0.55;
-            margin-left: auto;
+            width: 4px; height: 4px; background: #fff;
+            border-radius: 50%; margin-top: 9px;
+            opacity: 0.55; margin-left: auto;
         }
 
         /* ─── PROJECT LIST ─── */
         .projects-wrap {
-            position: fixed; inset: 0;
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            padding-left: 38px;
-            padding-right: 230px;
+            position: fixed; inset: 0; z-index: 4;
+            display: flex; align-items: center;
+            padding-left: 38px; padding-right: 230px;
             overflow: hidden;
         }
-
         .projects-scroll {
-            overflow-y: auto;
-            max-height: 100vh;
-            scrollbar-width: none;
-            padding: 110px 0 90px;
-            width: 100%;
+            overflow-y: auto; max-height: 100vh;
+            scrollbar-width: none; padding: 110px 0 90px; width: 100%;
         }
         .projects-scroll::-webkit-scrollbar { display: none; }
-
-        /* dim all siblings on any hover */
-        .projects-scroll:hover .project-name {
-            opacity: 0.25;
-            color: #fff;
-        }
-
+        .projects-scroll:hover .project-name { opacity: 0.2; color: #fff; }
         .p-item { margin-bottom: 2px; }
-
         .project-name {
             display: block;
             font-family: 'Barlow Condensed', sans-serif;
-            font-style: italic;
-            font-weight: 900;
+            font-style: italic; font-weight: 900;
             font-size: clamp(52px, 9vw, 122px);
-            line-height: 0.88;
-            text-transform: uppercase;
-            color: #fff;
-            text-decoration: none;
+            line-height: 0.88; text-transform: uppercase;
+            color: #fff; text-decoration: none;
             letter-spacing: -0.01em;
             transition: opacity 0.22s ease, color 0.22s ease;
             white-space: nowrap;
         }
-
-        /* restore + tint the hovered item */
-        .p-item:hover .project-name {
-            opacity: 1 !important;
-            color: var(--orange-glow) !important;
-        }
-
+        .p-item:hover .project-name { opacity: 1 !important; color: var(--orange-glow) !important; }
         .project-tag {
             display: block;
             font-family: 'Barlow', sans-serif;
             font-size: 10px; font-weight: 300;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
+            letter-spacing: 0.18em; text-transform: uppercase;
             color: rgba(255,255,255,0.35);
             margin: 3px 0 22px 3px;
         }
 
         /* ─── PREVIEW CARD ─── */
         #preview {
-            position: fixed;
-            right: 38px; top: 50%;
+            position: fixed; right: 38px; top: 50%;
             transform: translateY(-50%) scale(0.92);
             width: 210px; aspect-ratio: 4/3;
-            border-radius: 2px;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 6;
-            opacity: 0;
+            border-radius: 2px; overflow: hidden;
+            pointer-events: none; z-index: 6; opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        #preview.show {
-            opacity: 1;
-            transform: translateY(-50%) scale(1);
-        }
+        #preview.show { opacity: 1; transform: translateY(-50%) scale(1); }
         #preview-inner {
             width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
             font-family: 'Barlow', sans-serif;
             font-size: 10px; letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.8);
-            text-align: center; padding: 20px;
-            line-height: 1.6;
+            text-transform: uppercase; color: rgba(255,255,255,0.8);
+            text-align: center; padding: 20px; line-height: 1.6;
         }
 
         /* ─── FOOTER ─── */
         footer {
             position: fixed; bottom: 0; left: 0; right: 0;
-            padding: 22px 38px;
-            z-index: 5;
+            padding: 22px 38px; z-index: 5;
             display: flex; justify-content: space-between;
         }
         footer span {
             font-family: 'Barlow', sans-serif;
             font-size: 9px; font-weight: 300;
-            letter-spacing: 0.18em;
-            text-transform: uppercase; opacity: 0.35;
+            letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.35;
         }
+
+        /* ─── OVERLAYS ─── */
+        .overlay {
+            position: fixed; inset: 0; z-index: 50;
+            background: #060100;
+            transform: translateX(100%);
+            overflow-y: auto; scrollbar-width: none;
+        }
+        .overlay::-webkit-scrollbar { display: none; }
+
+        .overlay-close {
+            position: fixed; top: 28px; right: 38px;
+            background: none; border: 1px solid rgba(255,255,255,0.3);
+            color: #fff; font-size: 11px;
+            width: 34px; height: 34px;
+            border-radius: 50%; cursor: none; z-index: 55;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, color 0.2s;
+            font-family: 'Barlow', sans-serif; letter-spacing: 0;
+        }
+        .overlay-close:hover { background: #fff; color: #000; }
+
+        /* ── Project overlay ── */
+        .po-inner {
+            min-height: 100vh;
+            padding: 110px 38px 80px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 80px;
+            align-items: start;
+        }
+        .po-cat {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; font-weight: 300;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            opacity: 0.45; margin-bottom: 18px;
+        }
+        .po-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-style: italic; font-weight: 900;
+            font-size: clamp(56px, 7.5vw, 108px);
+            line-height: 0.88; text-transform: uppercase;
+            color: var(--orange-glow); margin-bottom: 44px;
+        }
+        .po-desc {
+            font-family: 'Barlow', sans-serif;
+            font-size: 14px; font-weight: 300; line-height: 1.75;
+            opacity: 0.7; max-width: 500px; margin-bottom: 36px;
+        }
+        .po-tech {
+            display: flex; flex-wrap: wrap; gap: 7px;
+            margin-bottom: 40px;
+        }
+        .po-tech span {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; font-weight: 400;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.22);
+            padding: 5px 12px; opacity: 0.7;
+        }
+        .po-links { display: flex; gap: 10px; }
+        .po-links a {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: #fff; text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .po-links a:hover { background: #fff; color: #000; }
+        .po-image {
+            width: 100%; aspect-ratio: 16/10;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Barlow', sans-serif; font-size: 9px;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            opacity: 0.25; border-radius: 2px; margin-top: 20px;
+        }
+
+        /* ── About overlay ── */
+        .ao-inner {
+            min-height: 100vh;
+            padding: 140px 38px 80px;
+            display: flex; flex-direction: column;
+            justify-content: center; max-width: 860px;
+        }
+        .ao-eyebrow {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+            opacity: 0.45; margin-bottom: 20px;
+        }
+        .ao-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-style: italic; font-weight: 900;
+            font-size: clamp(60px, 9vw, 118px);
+            line-height: 0.88; text-transform: uppercase;
+            margin-bottom: 44px;
+        }
+        .ao-bio {
+            font-family: 'Barlow', sans-serif;
+            font-size: 15px; font-weight: 300; line-height: 1.75;
+            opacity: 0.7; max-width: 580px; margin-bottom: 44px;
+        }
+        .ao-skills {
+            display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 44px;
+        }
+        .ao-skills span {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.22); padding: 5px 12px;
+        }
+        .ao-links { display: flex; gap: 10px; }
+        .ao-links a {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+            color: #fff; text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.4); padding: 8px 20px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .ao-links a:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
+
+<!-- Loading screen -->
+<div id="loader">
+    <div id="loader-label">Loading</div>
+    <div id="loader-track"><div id="loader-bar"></div></div>
+</div>
 
 <canvas id="bg"></canvas>
 <div id="grain"></div>
@@ -227,7 +329,7 @@
         <div class="dot"></div>
     </div>
     <nav>
-        <a href="#about">About</a>
+        <a href="#about" id="nav-about">About</a>
         <a href="https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF" target="_blank">Music</a>
         <a href="mailto:dimpapa91@gmail.com">Contact</a>
     </nav>
@@ -245,6 +347,7 @@
 
         <div class="p-item">
             <a class="project-name" href="#"
+               data-project="waveline"
                data-color="#7a2000"
                data-label="Music analytics web app — Flask · Python · Spotify API">
                 Waveline
@@ -253,9 +356,8 @@
         </div>
 
         <div class="p-item">
-            <a class="project-name"
-               href="https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF"
-               target="_blank"
+            <a class="project-name" href="#"
+               data-project="blakenor"
                data-color="#2a0850"
                data-label="Ambient & electronic music project">
                 Blakenor
@@ -265,6 +367,7 @@
 
         <div class="p-item">
             <a class="project-name" href="#"
+               data-project="pipeline"
                data-color="#062210"
                data-label="Spotify data pipeline — Python · ETL · Cloud">
                 Music Insight Pipeline
@@ -276,9 +379,7 @@
 </div>
 
 <!-- Preview card -->
-<div id="preview">
-    <div id="preview-inner"></div>
-</div>
+<div id="preview"><div id="preview-inner"></div></div>
 
 <!-- Footer -->
 <footer>
@@ -286,8 +387,49 @@
     <span>Based in the UK · Available for work</span>
 </footer>
 
+<!-- Project overlay -->
+<div class="overlay" id="project-overlay">
+    <button class="overlay-close" id="project-close">✕</button>
+    <div id="project-content"></div>
+</div>
+
+<!-- About overlay -->
+<div class="overlay" id="about-overlay">
+    <button class="overlay-close" id="about-close">✕</button>
+    <div class="ao-inner">
+        <div class="ao-eyebrow">About</div>
+        <div class="ao-name">Dimos<br>Papageorgiou</div>
+        <div class="ao-bio">
+            Data Engineer and Music Producer based in Manchester, UK.
+            I build data pipelines and analytics tools by day, and craft
+            electronic soundscapes by night under the name Blakenor.
+            Passionate about the intersection of technology and creativity.
+        </div>
+        <div class="ao-skills">
+            <span>Python</span>
+            <span>Data Engineering</span>
+            <span>ETL Pipelines</span>
+            <span>SQL</span>
+            <span>Flask</span>
+            <span>Spotify API</span>
+            <span>Ableton Live</span>
+            <span>Sound Design</span>
+            <span>Mixing & Mastering</span>
+            <span>JavaScript</span>
+            <span>Three.js</span>
+        </div>
+        <div class="ao-links">
+            <a href="https://github.com/dimopapa91" target="_blank">GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/dimos-dimitrios-papageorgiou/" target="_blank">LinkedIn ↗</a>
+            <a href="mailto:dimpapa91@gmail.com">Email ↗</a>
+        </div>
+    </div>
+</div>
+
 <!-- THREE.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════════════
 //  TERRAIN BACKGROUND
@@ -298,109 +440,86 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x060100);
 
-const scene  = new THREE.Scene();
-scene.fog    = new THREE.FogExp2(0x060100, 0.016);
+const scene = new THREE.Scene();
+scene.fog   = new THREE.FogExp2(0x060100, 0.016);
 
 const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 300);
 camera.position.set(0, 24, 52);
 camera.lookAt(0, -3, 0);
 
-// ── Simplex Noise vertex shader ──────────────────────────────
 const vertSrc = `
 uniform float u_time;
 varying float v_elev;
 
-// Simplex 3D noise (Stefan Gustavson)
-vec3 mod289(vec3 x){return x - floor(x*(1./289.))*289.;}
-vec4 mod289(vec4 x){return x - floor(x*(1./289.))*289.;}
+vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}
+vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}
 vec4 permute(vec4 x){return mod289(((x*34.)+1.)*x);}
-vec4 tis(vec4 r){return 1.79284291400159 - 0.85373472095314*r;}
+vec4 tis(vec4 r){return 1.79284291400159-0.85373472095314*r;}
 float snoise(vec3 v){
-  const vec2 C = vec2(1./6., 1./3.);
-  vec3 i  = floor(v + dot(v,C.yyy));
-  vec3 x0 = v - i + dot(i,C.xxx);
-  vec3 g  = step(x0.yzx,x0.xyz);
-  vec3 l  = 1.0 - g;
-  vec3 i1 = min(g.xyz,l.zxy);
-  vec3 i2 = max(g.xyz,l.zxy);
-  vec3 x1 = x0 - i1 + C.xxx;
-  vec3 x2 = x0 - i2 + C.yyy;
-  vec3 x3 = x0 - vec3(0.5);
-  i = mod289(i);
-  vec4 p = permute(permute(permute(
-      i.z+vec4(0.,i1.z,i2.z,1.))
-    + i.y+vec4(0.,i1.y,i2.y,1.))
-    + i.x+vec4(0.,i1.x,i2.x,1.));
-  vec3  ns = 0.142857142857*vec4(0.,.5,1.,2.).wyz - vec4(0.,.5,1.,2.).xzx;
-  vec4  j  = p - 49.*floor(p*ns.z*ns.z);
-  vec4  x_ = floor(j*ns.z);
-  vec4  y_ = floor(j - 7.*x_);
-  vec4  x  = x_*ns.x + ns.yyyy;
-  vec4  y  = y_*ns.x + ns.yyyy;
-  vec4  h  = 1.0 - abs(x) - abs(y);
-  vec4  b0 = vec4(x.xy,y.xy);
-  vec4  b1 = vec4(x.zw,y.zw);
-  vec4  s0 = floor(b0)*2.+1.;
-  vec4  s1 = floor(b1)*2.+1.;
-  vec4  sh = -step(h,vec4(0.));
-  vec4  a0 = b0.xzyw + s0.xzyw*sh.xxyy;
-  vec4  a1 = b1.xzyw + s1.xzyw*sh.zzww;
-  vec3  p0 = vec3(a0.xy,h.x);
-  vec3  p1 = vec3(a0.zw,h.y);
-  vec3  p2 = vec3(a1.xy,h.z);
-  vec3  p3 = vec3(a1.zw,h.w);
-  vec4 norm = tis(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
-  p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
-  vec4 m = max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);
+  const vec2 C=vec2(1./6.,1./3.);
+  vec3 i=floor(v+dot(v,C.yyy));
+  vec3 x0=v-i+dot(i,C.xxx);
+  vec3 g=step(x0.yzx,x0.xyz);
+  vec3 l=1.-g;
+  vec3 i1=min(g.xyz,l.zxy);
+  vec3 i2=max(g.xyz,l.zxy);
+  vec3 x1=x0-i1+C.xxx;
+  vec3 x2=x0-i2+C.yyy;
+  vec3 x3=x0-vec3(0.5);
+  i=mod289(i);
+  vec4 p=permute(permute(permute(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));
+  vec3 ns=0.142857142857*vec4(0.,.5,1.,2.).wyz-vec4(0.,.5,1.,2.).xzx;
+  vec4 j=p-49.*floor(p*ns.z*ns.z);
+  vec4 x_=floor(j*ns.z);
+  vec4 y_=floor(j-7.*x_);
+  vec4 x=x_*ns.x+ns.yyyy;
+  vec4 y=y_*ns.x+ns.yyyy;
+  vec4 h=1.-abs(x)-abs(y);
+  vec4 b0=vec4(x.xy,y.xy);
+  vec4 b1=vec4(x.zw,y.zw);
+  vec4 s0=floor(b0)*2.+1.;
+  vec4 s1=floor(b1)*2.+1.;
+  vec4 sh=-step(h,vec4(0.));
+  vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;
+  vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+  vec3 p0=vec3(a0.xy,h.x);
+  vec3 p1=vec3(a0.zw,h.y);
+  vec3 p2=vec3(a1.xy,h.z);
+  vec3 p3=vec3(a1.zw,h.w);
+  vec4 norm=tis(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+  p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
+  vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);
   m=m*m;
   return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
 }
 
 void main(){
-  vec3 pos = position;
-
-  // Large rolling hills
-  float e  = snoise(vec3(pos.x*0.038, pos.z*0.038, u_time*0.07)) * 15.0;
-  // Mid-frequency ridges
-       e += snoise(vec3(pos.x*0.10,  pos.z*0.09,  u_time*0.05)) *  6.0;
-  // Fine surface texture
-       e += snoise(vec3(pos.x*0.28,  pos.z*0.28,  u_time*0.04)) *  1.8;
-
-  pos.y  += e;
-  v_elev  = e;
-
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-}
-`;
+  vec3 pos=position;
+  float e=snoise(vec3(pos.x*.038,pos.z*.038,u_time*.07))*15.;
+  e+=snoise(vec3(pos.x*.10,pos.z*.09,u_time*.05))*6.;
+  e+=snoise(vec3(pos.x*.28,pos.z*.28,u_time*.04))*1.8;
+  pos.y+=e;
+  v_elev=e;
+  gl_Position=projectionMatrix*modelViewMatrix*vec4(pos,1.);
+}`;
 
 const fragSrc = `
 varying float v_elev;
-
 void main(){
-  float t = clamp((v_elev + 15.0) / 30.0, 0.0, 1.0);
-
-  // Deep shadow → mid amber → bright peak
-  vec3 c0 = vec3(0.02, 0.005, 0.0);   // near-black
-  vec3 c1 = vec3(0.30, 0.10,  0.01);  // dark amber
-  vec3 c2 = vec3(0.78, 0.33,  0.04);  // warm orange peak
-
-  vec3 col = t < 0.5
-    ? mix(c0, c1, t * 2.0)
-    : mix(c1, c2, (t - 0.5) * 2.0);
-
-  gl_FragColor = vec4(col, 1.0);
-}
-`;
+  float t=clamp((v_elev+15.)/30.,0.,1.);
+  vec3 c0=vec3(0.02,0.005,0.);
+  vec3 c1=vec3(0.30,0.10,0.01);
+  vec3 c2=vec3(0.78,0.33,0.04);
+  vec3 col=t<.5?mix(c0,c1,t*2.):mix(c1,c2,(t-.5)*2.);
+  gl_FragColor=vec4(col,1.);
+}`;
 
 const geo = new THREE.PlaneGeometry(260, 260, 150, 150);
 geo.rotateX(-Math.PI / 2);
-
 const mat = new THREE.ShaderMaterial({
-    uniforms:       { u_time: { value: 0 } },
-    vertexShader:   vertSrc,
-    fragmentShader: fragSrc
+    uniforms: { u_time: { value: 0 } },
+    vertexShader: vertSrc, fragmentShader: fragSrc
 });
-
 scene.add(new THREE.Mesh(geo, mat));
 
 window.addEventListener('resize', () => {
@@ -414,7 +533,6 @@ const clock = new THREE.Clock();
     requestAnimationFrame(tick);
     const t = clock.getElapsedTime();
     mat.uniforms.u_time.value = t;
-    // Gentle camera sway
     camera.position.x = Math.sin(t * 0.045) * 7;
     camera.position.z = 52 + Math.cos(t * 0.03) * 3;
     camera.lookAt(0, -3, 0);
@@ -422,13 +540,42 @@ const clock = new THREE.Clock();
 })();
 
 // ═══════════════════════════════════════════════════════════════
+//  LOADING + ENTRANCE ANIMATIONS
+// ═══════════════════════════════════════════════════════════════
+gsap.set('header', { opacity: 0, y: -20 });
+gsap.set('.side-r', { opacity: 0, x: 20 });
+gsap.set('.project-name', { opacity: 0, y: 70 });
+gsap.set('.project-tag', { opacity: 0 });
+gsap.set('footer', { opacity: 0, y: 12 });
+
+const loader    = document.getElementById('loader');
+const loaderBar = document.getElementById('loader-bar');
+
+gsap.to(loaderBar, {
+    width: '100%',
+    duration: 1.1,
+    ease: 'power2.inOut',
+    onComplete: () => {
+        gsap.to(loader, {
+            opacity: 0, duration: 0.5, delay: 0.15,
+            onComplete: () => loader.style.display = 'none'
+        });
+
+        const tl = gsap.timeline({ delay: 0.25 });
+        tl.to('header', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+          .to('.side-r',      { opacity: 0.5, x: 0, duration: 0.7, ease: 'power3.out' }, '-=0.5')
+          .to('.project-name',{ opacity: 1, y: 0, duration: 1.0, stagger: 0.12, ease: 'power4.out' }, '-=0.4')
+          .to('.project-tag', { opacity: 0.35, duration: 0.6, stagger: 0.1 }, '-=0.7')
+          .to('footer',       { opacity: 0.35, y: 0, duration: 0.6 }, '-=0.5');
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
 //  CURSOR
 // ═══════════════════════════════════════════════════════════════
 const cur = document.getElementById('cursor');
 let mx = -200, my = -200, cx = -200, cy = -200;
-
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
 (function moveCursor() {
     requestAnimationFrame(moveCursor);
     cx += (mx - cx) * 0.12;
@@ -438,7 +585,99 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
 })();
 
 // ═══════════════════════════════════════════════════════════════
-//  HOVER INTERACTIONS
+//  PROJECT DATA
+// ═══════════════════════════════════════════════════════════════
+const projectData = {
+    waveline: {
+        name: 'Waveline',
+        year: '2024',
+        category: 'Music Analytics',
+        description: 'A web app that connects to your Spotify account and surfaces deep insights into your music taste — artist profiles, listening stats, taste comparisons, and a weekly email digest. Built with Flask and Python, pulling live data from Spotify and Last.fm.',
+        tech: ['Flask', 'Python', 'Spotify API', 'Last.fm API', 'SQLite', 'Jinja2', 'HTML/CSS'],
+        links: [{ label: 'GitHub ↗', href: 'https://github.com/dimopapa91' }],
+        color: '#7a2000'
+    },
+    blakenor: {
+        name: 'Blakenor',
+        year: 'Ongoing',
+        category: 'Original Music',
+        description: 'Ambient, lo-fi and electronic soundscapes. Blakenor is my music project — exploring texture, mood and space through layered synthesis, samples and field recordings. Available on Spotify, Apple Music and all major platforms.',
+        tech: ['Ableton Live', 'Synthesis', 'Sound Design', 'Mixing', 'Mastering'],
+        links: [{ label: 'Spotify ↗', href: 'https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF' }],
+        color: '#2a0850'
+    },
+    pipeline: {
+        name: 'Music Insight Pipeline',
+        year: '2025',
+        category: 'Data Engineering',
+        description: 'An automated ETL pipeline that ingests listening history and track metadata from the Spotify API, processes it through a transformation layer, stores it in a structured database, and surfaces insights about music trends and personal taste over time.',
+        tech: ['Python', 'ETL', 'Spotify API', 'Data Engineering', 'SQL', 'Cloud'],
+        links: [{ label: 'GitHub ↗', href: 'https://github.com/dimopapa91' }],
+        color: '#062210'
+    }
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  OVERLAY: PROJECT
+// ═══════════════════════════════════════════════════════════════
+const projectOverlay = document.getElementById('project-overlay');
+const projectContent = document.getElementById('project-content');
+
+function openProject(key) {
+    const p = projectData[key];
+    if (!p) return;
+    projectContent.innerHTML = `
+        <div class="po-inner">
+            <div class="po-left">
+                <div class="po-cat">${p.category} · ${p.year}</div>
+                <div class="po-name">${p.name}</div>
+                <div class="po-desc">${p.description}</div>
+                <div class="po-tech">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
+                <div class="po-links">${p.links.map(l => `<a href="${l.href}" target="_blank">${l.label}</a>`).join('')}</div>
+            </div>
+            <div class="po-right">
+                <div class="po-image" style="background:${p.color}30; border:1px solid ${p.color}50;">
+                    Screenshots coming soon
+                </div>
+            </div>
+        </div>`;
+    gsap.fromTo(projectOverlay,
+        { xPercent: 100 },
+        { xPercent: 0, duration: 0.75, ease: 'power4.inOut' }
+    );
+}
+
+function closeProject() {
+    gsap.to(projectOverlay, { xPercent: 100, duration: 0.6, ease: 'power4.inOut' });
+}
+
+document.getElementById('project-close').addEventListener('click', closeProject);
+
+// ═══════════════════════════════════════════════════════════════
+//  OVERLAY: ABOUT
+// ═══════════════════════════════════════════════════════════════
+const aboutOverlay = document.getElementById('about-overlay');
+
+function openAbout() {
+    gsap.fromTo(aboutOverlay,
+        { xPercent: 100 },
+        { xPercent: 0, duration: 0.75, ease: 'power4.inOut' }
+    );
+}
+
+function closeAbout() {
+    gsap.to(aboutOverlay, { xPercent: 100, duration: 0.6, ease: 'power4.inOut' });
+}
+
+document.getElementById('about-close').addEventListener('click', closeAbout);
+
+document.getElementById('nav-about').addEventListener('click', e => {
+    e.preventDefault();
+    openAbout();
+});
+
+// ═══════════════════════════════════════════════════════════════
+//  HOVER + CLICK INTERACTIONS
 // ═══════════════════════════════════════════════════════════════
 const preview   = document.getElementById('preview');
 const prevInner = document.getElementById('preview-inner');
@@ -454,11 +693,20 @@ document.querySelectorAll('.project-name').forEach(el => {
         cur.classList.remove('big');
         preview.classList.remove('show');
     });
+    el.addEventListener('click', e => {
+        e.preventDefault();
+        openProject(el.dataset.project);
+    });
 });
 
-document.querySelectorAll('nav a').forEach(el => {
+document.querySelectorAll('nav a, .overlay-close').forEach(el => {
     el.addEventListener('mouseenter', () => cur.classList.add('big'));
     el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+// Close overlays on Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeProject(); closeAbout(); }
 });
 </script>
 </body>

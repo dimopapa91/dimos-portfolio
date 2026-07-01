@@ -803,18 +803,25 @@ gsap.set('footer', { opacity: 0, y: 12 });
 const loader    = document.getElementById('loader');
 const loaderBar = document.getElementById('loader-bar');
 
+function revealSite() {
+    if (revealSite._done) return;
+    revealSite._done = true;
+    gsap.to(loader, { opacity: 0, duration: 0.4, onComplete: () => loader.style.display = 'none' });
+    const tl = gsap.timeline({ delay: 0.1 });
+    tl.to('header',        { opacity: 1,    y: 0,  duration: 0.8,  ease: 'power3.out' })
+      .to('.side-r',       { opacity: 0.5,  x: 0,  duration: 0.7,  ease: 'power3.out' }, '-=0.5')
+      .to('.project-name', { opacity: 1,    y: 0,  duration: 1.0,  stagger: 0.12, ease: 'power4.out' }, '-=0.4')
+      .to('.project-tag',  { opacity: 0.35,        duration: 0.6,  stagger: 0.1 }, '-=0.7')
+      .to('footer',        { opacity: 0.35, y: 0,  duration: 0.6 }, '-=0.5');
+}
+
 gsap.to(loaderBar, {
-    width: '100%', duration: 1.1, ease: 'power2.inOut',
-    onComplete: () => {
-        gsap.to(loader, { opacity: 0, duration: 0.5, delay: 0.1, onComplete: () => loader.style.display = 'none' });
-        const tl = gsap.timeline({ delay: 0.2 });
-        tl.to('header',        { opacity: 1,    y: 0,  duration: 0.8,  ease: 'power3.out' })
-          .to('.side-r',       { opacity: 0.5,  x: 0,  duration: 0.7,  ease: 'power3.out' }, '-=0.5')
-          .to('.project-name', { opacity: 1,    y: 0,  duration: 1.0,  stagger: 0.12, ease: 'power4.out' }, '-=0.4')
-          .to('.project-tag',  { opacity: 0.35,        duration: 0.6,  stagger: 0.1 }, '-=0.7')
-          .to('footer',        { opacity: 0.35, y: 0,  duration: 0.6 }, '-=0.5');
-    }
+    width: '100%', duration: 0.9, ease: 'power2.inOut',
+    onComplete: revealSite
 });
+
+// Safety fallback: force-reveal after 2.5s regardless
+setTimeout(revealSite, 2500);
 
 // ═══════════════════════════════════════════════════════════════
 //  CURSOR

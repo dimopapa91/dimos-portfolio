@@ -29,24 +29,43 @@
             html, body { cursor: auto; overflow: auto; }
         }
 
-        /* ─── MOBILE BACKGROUND (replaces Three.js terrain) ─── */
+        /* ─── MOBILE TERRAIN (replaces Three.js terrain) ─── */
         @media (max-width: 768px) {
+            /* Mountain silhouette — matches desktop terrain palette */
             body::before {
+                content: '';
+                position: fixed;
+                left: -5%; right: -5%; bottom: 0;
+                height: 100%;
+                z-index: 0;
+                pointer-events: none;
+                background: linear-gradient(to bottom,
+                    #e87030 0%, #c04010 28%, #822208 58%, #2e0800 100%);
+                clip-path: polygon(
+                    0% 100%,
+                    0% 72%, 3% 57%, 6% 68%, 10% 50%, 13% 63%, 17% 43%,
+                    20% 56%, 24% 37%, 27% 52%, 31% 30%, 34% 45%, 38% 24%,
+                    41% 39%, 45% 18%, 48% 34%, 52% 13%, 55% 28%, 59% 9%,
+                    62% 24%, 66% 16%, 70% 31%, 73% 11%, 77% 26%, 80% 40%,
+                    84% 21%, 87% 36%, 91% 50%, 94% 38%, 97% 55%, 100% 46%,
+                    100% 100%
+                );
+                animation: terrain-breathe 9s ease-in-out infinite alternate;
+            }
+            /* Peak glow overlay */
+            body::after {
                 content: '';
                 position: fixed;
                 inset: 0;
                 z-index: 0;
                 pointer-events: none;
-                background:
-                    radial-gradient(ellipse 90% 55% at 10% 90%, rgba(208,92,24,0.28) 0%, transparent 60%),
-                    radial-gradient(ellipse 60% 40% at 88% 12%, rgba(180,55,8,0.15)  0%, transparent 55%),
-                    radial-gradient(ellipse 50% 35% at 50% 55%, rgba(208,92,24,0.07) 0%, transparent 70%);
-                animation: mobile-glow 9s ease-in-out infinite alternate;
+                background: radial-gradient(ellipse 100% 35% at 50% 38%, rgba(255,110,40,0.25) 0%, transparent 70%);
+                animation: terrain-breathe 9s ease-in-out infinite alternate;
             }
         }
-        @keyframes mobile-glow {
-            0%   { opacity: 0.65; transform: scale(1); }
-            100% { opacity: 1;    transform: scale(1.06); }
+        @keyframes terrain-breathe {
+            0%   { opacity: 0.85; transform: translateY(0); }
+            100% { opacity: 1;    transform: translateY(-6px); }
         }
 
         /* ─── CANVAS ─── */
@@ -296,7 +315,7 @@
             min-height: 100vh;
             padding: 110px 38px 80px;
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
+            grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: start;
         }
@@ -351,10 +370,14 @@
             letter-spacing: 0.12em; text-transform: uppercase;
             opacity: 0.2;
         }
-        .po-artwork {
+        .po-artwork-wrap {
             width: 100%; aspect-ratio: 1/1;
-            object-fit: cover; border-radius: 2px;
-            margin-top: 20px;
+            margin-top: 20px; border-radius: 2px;
+            background: #1a0a04;
+            overflow: hidden;
+        }
+        .po-artwork-wrap img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
         }
 
         /* ── Music overlay ── */
@@ -615,12 +638,6 @@
                 Waveline
             </a>
             <span class="project-tag">Music Analytics · 2024</span>
-            <div class="proj-icon-row">
-                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-original.svg" title="Python" alt="Python">
-                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flask/flask-original.svg" title="Flask" alt="Flask" style="filter:brightness(0) invert(1)">
-                <img class="proj-ti" src="https://cdn.simpleicons.org/spotify/1DB954" title="Spotify API" alt="Spotify">
-                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/sqlite/sqlite-original.svg" title="SQLite" alt="SQLite">
-            </div>
         </div>
 
         <div class="p-item">
@@ -631,10 +648,6 @@
                 Blakenor
             </a>
             <span class="project-tag">Original Music · Ongoing</span>
-            <div class="proj-icon-row">
-                <img class="proj-ti" src="https://cdn.simpleicons.org/abletonlive/ffffff" title="Ableton Live" alt="Ableton">
-                <img class="proj-ti" src="https://cdn.simpleicons.org/spotify/1DB954" title="Spotify" alt="Spotify">
-            </div>
         </div>
 
         <div class="p-item">
@@ -645,13 +658,6 @@
                 Music Insight Pipeline
             </a>
             <span class="project-tag">Data Engineering · 2025</span>
-            <div class="proj-icon-row">
-                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-original.svg" title="Python" alt="Python">
-                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL">
-                <img class="proj-ti" src="https://cdn.simpleicons.org/spotify/1DB954" title="Spotify API" alt="Spotify">
-                <img class="proj-ti" src="https://cdn.simpleicons.org/anthropic/ffffff" title="Anthropic Claude API" alt="Anthropic">
-                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flask/flask-original.svg" title="Flask" alt="Flask" style="filter:brightness(0) invert(1)">
-            </div>
         </div>
 
     </div>
@@ -976,14 +982,22 @@ const TECH_ICONS = {
     'Spotify API':          { src: SI+'spotify/1DB954' },
     'Last.fm API':          { src: SI+'lastdotfm/D51007' },
     'Deezer API':           { src: SI+'deezer/EF5466' },
-    'Ableton Live':         { src: SI+'abletonlive/ffffff' },
+    'Ableton Live':         { src: SI+'ableton/ffffff' },
     'Anthropic Claude API': { src: SI+'anthropic/ffffff' },
+    'Node.js':              { src: DI+'nodejs/nodejs-original.svg' },
+    'React':                { src: DI+'react/react-original.svg' },
+    'Azure':                { src: DI+'azure/azure-original.svg' },
+    'Git':                  { src: DI+'git/git-original.svg' },
+    'REST APIs':            { src: DI+'fastapi/fastapi-original.svg', inv: false },
+    'Power BI':             { src: SI+'powerbi/F2C811' },
+    'Firebase':             { src: DI+'firebase/firebase-plain.svg' },
 };
 const ABOUT_SKILLS = [
-    'Python','Flask','JavaScript','SQL','PostgreSQL',
-    'Spotify API','Last.fm API','Three.js',
-    'ETL Pipelines','Data Engineering',
-    'Ableton Live','Sound Design','Mixing & Mastering'
+    'Python','Flask','JavaScript','PostgreSQL','SQL',
+    'Node.js','React','Azure','Git',
+    'Spotify API','Last.fm API','Deezer API','Anthropic Claude API',
+    'ETL Pipelines','Data Engineering','REST APIs',
+    'Three.js','Ableton Live','Sound Design','Mixing & Mastering'
 ];
 function techPill(name) {
     const ti = TECH_ICONS[name];
@@ -1006,7 +1020,7 @@ const projectData = {
         name: 'Waveline',
         year: '2024', category: 'Music Analytics',
         description: 'A real-time music discovery platform. Search any artist and get instant insights: listener counts, top tracks, similar artists, and AI-generated analysis. Features a taste profile engine, artist comparison tool, live music news feed, and a personal discovery pipeline. Built with Flask and Python, pulling live data from Spotify, Last.fm, and Deezer.',
-        tech: ['Flask', 'Python', 'Spotify API', 'Last.fm API', 'SQLite', 'Jinja2'],
+        tech: ['Python', 'Flask', 'Spotify API', 'Last.fm API', 'Deezer API', 'SQLite', 'REST APIs'],
         links: [
             { label: 'GitHub ↗', href: 'https://github.com/dimopapa91/music-insight-pipeline' },
             { label: 'Live Demo ↗', href: 'https://waveline-mlbo.onrender.com' }
@@ -1027,7 +1041,7 @@ const projectData = {
         name: 'Music Insight Pipeline',
         year: '2025', category: 'Data Engineering',
         description: 'A fully automated ETL data pipeline that ingests artist and track metadata from Spotify, Last.fm, and Deezer, runs AI-generated analysis via the Anthropic Claude API, and stores structured results in PostgreSQL with JSONB. Includes a Flask dashboard with artist profiles, genre trend tracking, artist comparison, taste profiling, and a weekly automated email digest. Scheduled daily via APScheduler — the complete backend data layer powering the Waveline platform.',
-        tech: ['Python', 'Flask', 'PostgreSQL', 'ETL', 'Spotify API', 'Last.fm API', 'Deezer API', 'Anthropic Claude API', 'APScheduler', 'psycopg2'],
+        tech: ['Python', 'Flask', 'PostgreSQL', 'Spotify API', 'Last.fm API', 'Deezer API', 'Anthropic Claude API', 'REST APIs', 'ETL Pipelines', 'APScheduler'],
         links: [
             { label: 'GitHub ↗', href: 'https://github.com/dimopapa91/music-insight-pipeline' },
             { label: 'View Waveline ↗', href: '#' }
@@ -1061,7 +1075,7 @@ function openProject(key) {
             ${p.images.map(src => `<img src="${src}" alt="" onerror="this.style.display='none'">`).join('')}
         </div>`;
     } else if (p.artwork) {
-        mediaHTML = `<img class="po-artwork" src="${p.artwork}" alt="${p.name}" onerror="this.style.display='none'">`;
+        mediaHTML = `<div class="po-artwork-wrap"><img src="${p.artwork}" alt="${p.name}" onerror="this.style.opacity='0'"></div>`;
     }
 
     projectContent.innerHTML = `

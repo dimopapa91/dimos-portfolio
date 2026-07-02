@@ -5,11 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimos Papageorgiou — Data Engineer & Music Producer</title>
     <meta name="description" content="Portfolio of Dimos Papageorgiou — Data Engineer and Music Producer based in Manchester, UK.">
+    <link rel="canonical" href="https://dimospapageorgiou.com/">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23060100'/%3E%3Cpath d='M0 54 L13 30 L22 42 L34 18 L47 40 L56 32 L64 44 L64 64 L0 64 Z' fill='%23d05c18'/%3E%3Cpath d='M0 64 L0 58 L18 46 L30 52 L46 44 L64 52 L64 64 Z' fill='%23ff8c38' opacity='0.55'/%3E%3C/svg%3E">
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dimospapageorgiou.com/">
+    <meta property="og:title" content="Dimos Papageorgiou — Data Engineer & Music Producer">
+    <meta property="og:description" content="Data-driven web apps and pipelines by day, electronic music as Blakenor by night. Based in Manchester, UK.">
+    <meta property="og:image" content="https://dimospapageorgiou.com/assets/images/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dimos Papageorgiou — Data Engineer & Music Producer">
+    <meta name="twitter:description" content="Data-driven web apps and pipelines by day, electronic music as Blakenor by night. Based in Manchester, UK.">
+    <meta name="twitter:image" content="https://dimospapageorgiou.com/assets/images/og-image.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;1,700;1,800;1,900&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .sr-only {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
 
         :root {
             --orange:      #d05c18;
@@ -613,6 +633,7 @@
 
 <!-- Header -->
 <header>
+    <h1 class="sr-only">Dimos Papageorgiou — Data Engineer &amp; Music Producer</h1>
     <div class="hdr-id">
         Portfolio of<br>Dimos Papageorgiou
         <div class="dot"></div>
@@ -700,7 +721,7 @@
 
             <div class="mo-links">
                 <a href="https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF" target="_blank">Spotify ↗</a>
-                <a href="https://music.apple.com" target="_blank">Apple Music ↗</a>
+                <a href="https://music.apple.com/gb/artist/blakenor/1629825963" target="_blank">Apple Music ↗</a>
             </div>
         </div>
         <div class="mo-right">
@@ -1037,7 +1058,10 @@ const projectData = {
         year: 'Ongoing', category: 'Original Music',
         description: 'Ambient, lo-fi and electronic soundscapes. Blakenor is my music project — exploring texture, mood and space through layered synthesis, samples and field recordings. Available on Spotify, Apple Music and all major platforms.',
         tech: ['Ableton Live', 'Synthesis', 'Sound Design', 'Mixing', 'Mastering'],
-        links: [{ label: 'Spotify ↗', href: 'https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF' }],
+        links: [
+            { label: 'Spotify ↗', href: 'https://open.spotify.com/artist/5RPzIdjn8bJ0heMRMPRUIF' },
+            { label: 'Apple Music ↗', href: 'https://music.apple.com/gb/artist/blakenor/1629825963' }
+        ],
         color: '#2a0850',
         artwork: 'assets/images/colours-ep.jpg'
     },
@@ -1048,7 +1072,7 @@ const projectData = {
         tech: ['Python', 'Flask', 'PostgreSQL', 'Spotify API', 'Last.fm API', 'Deezer API', 'Anthropic Claude API', 'REST APIs', 'ETL Pipelines', 'APScheduler'],
         links: [
             { label: 'GitHub ↗', href: 'https://github.com/dimopapa91/music-insight-pipeline' },
-            { label: 'View Waveline ↗', href: '#' }
+            { label: 'View Waveline ↗', href: 'https://waveline-mlbo.onrender.com' }
         ],
         color: '#062210'
     }
@@ -1172,13 +1196,6 @@ document.querySelectorAll('nav a, .overlay-close').forEach(el => {
     el.addEventListener('mouseleave', () => cur.classList.remove('big'));
 });
 
-document.addEventListener('keydown', e => {
-    if (e.key !== 'Escape') return;
-    closeOverlay(projectOverlay);
-    closeOverlay(musicOverlay);
-    closeOverlay(aboutOverlay);
-    closeOverlay(contactOverlay);
-});
 </script>
 </body>
 </html>

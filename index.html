@@ -545,6 +545,40 @@
         }
         .ao-links a:hover { background: #fff; color: #000; }
 
+        /* ── About: live GitHub activity ── */
+        .ao-activity { margin-top: 44px; display: none; max-width: 580px; }
+        .ao-activity-label {
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+            opacity: 0.45; margin-bottom: 14px;
+        }
+        .act-row {
+            display: flex; align-items: baseline; gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 300;
+        }
+        .act-repo { color: var(--orange-glow); letter-spacing: 0.04em; flex-shrink: 0; }
+        .act-msg  { opacity: 0.65; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+        .act-date { opacity: 0.3; font-size: 10px; letter-spacing: 0.08em; flex-shrink: 0; text-transform: uppercase; }
+
+        /* ── Project overlay: live stats ── */
+        .po-live {
+            display: none; align-items: center; gap: 9px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 10px; font-weight: 400;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            color: #6ee08a;
+            margin: -14px 0 30px;
+        }
+        .live-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #4ade80; box-shadow: 0 0 8px rgba(74,222,128,0.8);
+            animation: live-pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+        @keyframes live-pulse { 50% { opacity: 0.35; } }
+
         /* ── Contact overlay ── */
         .co-inner {
             min-height: 100vh;
@@ -780,6 +814,11 @@
             <a href="https://github.com/dimopapa91" target="_blank" rel="noopener"><img class="btn-ico ico-inv" src="https://cdn.simpleicons.org/github/ffffff" alt=""><span>GitHub</span></a>
             <a href="https://www.linkedin.com/in/dimos-dimitrios-papageorgiou/" target="_blank" rel="noopener"><img class="btn-ico" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/linkedin/linkedin-original.svg" alt=""><span>LinkedIn</span></a>
             <a href="#" id="ao-contact-link"><img class="btn-ico ico-inv" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Crect x='2' y='4' width='20' height='16' rx='2'/%3E%3Cpath d='m2 7 10 7 10-7'/%3E%3C/svg%3E" alt=""><span>Contact</span></a>
+        </div>
+
+        <div class="ao-activity" id="ao-activity">
+            <div class="ao-activity-label">Latest GitHub activity</div>
+            <div id="ao-activity-list"></div>
         </div>
     </div></div>
 </div>
@@ -1138,12 +1177,75 @@ function openProject(key) {
                 <div class="po-cat">${p.category} · ${p.year}</div>
                 <div class="po-name">${p.name}</div>
                 <div class="po-desc">${p.description}</div>
+                <div class="po-live" id="po-live"></div>
                 <div class="po-tech">${p.tech.map(t => techPill(t)).join('')}</div>
                 <div class="po-links">${p.links.map(l => linkBtn(l)).join('')}</div>
             </div>
             <div class="po-right">${mediaHTML}</div>
         </div>`;
     openOverlay(projectOverlay);
+    if (key === 'waveline') loadWavelineStats();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  LIVE DATA (graceful — hidden if unreachable)
+// ═══════════════════════════════════════════════════════════════
+function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function timeAgo(d) {
+    const s = Math.floor((Date.now() - d.getTime()) / 1000);
+    if (s < 3600)   return Math.max(1, Math.floor(s/60)) + 'm ago';
+    if (s < 86400)  return Math.floor(s/3600) + 'h ago';
+    if (s < 604800) return Math.floor(s/86400) + 'd ago';
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+}
+
+// Live Waveline stats (needs /api/stats on the Flask app; silently skipped otherwise)
+function loadWavelineStats() {
+    const el = document.getElementById('po-live');
+    if (!el) return;
+    fetch('https://music-insight-pipeline-production.up.railway.app/api/stats')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(s => {
+            const bits = [];
+            if (s.total_searches != null) bits.push(s.total_searches + ' searches');
+            if (s.unique_artists != null) bits.push(s.unique_artists + ' artists tracked');
+            if (s.last_run) bits.push('pipeline last ran ' + s.last_run);
+            if (!bits.length) return;
+            el.innerHTML = '<span class="live-dot"></span>Live — ' + escapeHtml(bits.join(' · '));
+            el.style.display = 'flex';
+        })
+        .catch(() => {});
+}
+
+// Latest GitHub activity in About (lazy — fetched on first open)
+let ghLoaded = false;
+function loadGitHubActivity() {
+    if (ghLoaded) return;
+    ghLoaded = true;
+    fetch('https://api.github.com/users/dimopapa91/events/public')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(events => {
+            const rows = [];
+            for (const e of events) {
+                if (e.type !== 'PushEvent' || !e.payload.commits) continue;
+                const c = e.payload.commits[e.payload.commits.length - 1];
+                if (!c) continue;
+                rows.push({
+                    repo: e.repo.name.replace('dimopapa91/', ''),
+                    msg:  c.message.split('\n')[0],
+                    when: timeAgo(new Date(e.created_at))
+                });
+                if (rows.length >= 4) break;
+            }
+            if (!rows.length) return;
+            document.getElementById('ao-activity-list').innerHTML = rows.map(r =>
+                `<div class="act-row"><span class="act-repo">${escapeHtml(r.repo)}</span><span class="act-msg">${escapeHtml(r.msg)}</span><span class="act-date">${r.when}</span></div>`
+            ).join('');
+            document.getElementById('ao-activity').style.display = 'block';
+        })
+        .catch(() => {});
 }
 
 document.getElementById('project-close').addEventListener('click', () => closeOverlay(projectOverlay));
@@ -1155,7 +1257,7 @@ document.getElementById('music-close').addEventListener('click', () => closeOver
 
 // About
 const aboutOverlay = document.getElementById('about-overlay');
-document.getElementById('nav-about').addEventListener('click', e => { e.preventDefault(); openOverlay(aboutOverlay); });
+document.getElementById('nav-about').addEventListener('click', e => { e.preventDefault(); openOverlay(aboutOverlay); loadGitHubActivity(); });
 document.getElementById('about-close').addEventListener('click', () => closeOverlay(aboutOverlay));
 
 // Education

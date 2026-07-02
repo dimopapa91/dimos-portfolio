@@ -219,8 +219,31 @@
             letter-spacing: 0.18em; text-transform: uppercase;
             color: rgba(255,255,255,0.55);
             transition: color 0.22s ease, opacity 0.22s ease;
-            margin: 3px 0 24px 3px;
+            margin: 3px 0 8px 3px;
         }
+        /* ─── MAIN-SCREEN TECH ICON ROW ─── */
+        .proj-icon-row {
+            display: flex; align-items: center; gap: 9px;
+            margin: 0 0 24px 3px;
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        body.site-loaded .proj-icon-row { opacity: 0.55; }
+        .p-item:hover .proj-icon-row { opacity: 1 !important; }
+        .proj-ti { width: 15px; height: 15px; object-fit: contain; display: block; }
+
+        /* ─── TECH PILL (overlay + about) ─── */
+        .tech-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 9px; font-weight: 400; letter-spacing: 0.13em; text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 5px 11px 5px 8px;
+            opacity: 0.8; background: rgba(255,255,255,0.02);
+            transition: opacity 0.2s, border-color 0.2s;
+        }
+        .tech-pill:hover { opacity: 1; border-color: rgba(255,255,255,0.4); }
+        .tech-pill img { width: 14px; height: 14px; object-fit: contain; flex-shrink: 0; }
+        .tp-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.35); flex-shrink: 0; }
 
         /* ─── PREVIEW CARD ─── */
 
@@ -299,13 +322,6 @@
             opacity: 0.7; max-width: 500px; margin-bottom: 32px;
         }
         .po-tech { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 36px; }
-        .po-tech span {
-            font-family: 'Barlow', sans-serif;
-            font-size: 9px; font-weight: 400;
-            letter-spacing: 0.15em; text-transform: uppercase;
-            border: 1px solid rgba(255,255,255,0.22);
-            padding: 5px 12px; opacity: 0.7;
-        }
         .po-links { display: flex; gap: 10px; flex-wrap: wrap; }
         .po-links a {
             font-family: 'Barlow', sans-serif;
@@ -444,11 +460,6 @@
             opacity: 0.7; max-width: 580px; margin-bottom: 44px;
         }
         .ao-skills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 44px; }
-        .ao-skills span {
-            font-family: 'Barlow', sans-serif;
-            font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-            border: 1px solid rgba(255,255,255,0.22); padding: 5px 12px;
-        }
         .ao-links { display: flex; gap: 10px; flex-wrap: wrap; }
         .ao-links a {
             font-family: 'Barlow', sans-serif;
@@ -604,6 +615,12 @@
                 Waveline
             </a>
             <span class="project-tag">Music Analytics · 2024</span>
+            <div class="proj-icon-row">
+                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-original.svg" title="Python" alt="Python">
+                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flask/flask-original.svg" title="Flask" alt="Flask" style="filter:brightness(0) invert(1)">
+                <img class="proj-ti" src="https://cdn.simpleicons.org/spotify/1DB954" title="Spotify API" alt="Spotify">
+                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/sqlite/sqlite-original.svg" title="SQLite" alt="SQLite">
+            </div>
         </div>
 
         <div class="p-item">
@@ -614,6 +631,10 @@
                 Blakenor
             </a>
             <span class="project-tag">Original Music · Ongoing</span>
+            <div class="proj-icon-row">
+                <img class="proj-ti" src="https://cdn.simpleicons.org/abletonlive/ffffff" title="Ableton Live" alt="Ableton">
+                <img class="proj-ti" src="https://cdn.simpleicons.org/spotify/1DB954" title="Spotify" alt="Spotify">
+            </div>
         </div>
 
         <div class="p-item">
@@ -624,6 +645,13 @@
                 Music Insight Pipeline
             </a>
             <span class="project-tag">Data Engineering · 2025</span>
+            <div class="proj-icon-row">
+                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-original.svg" title="Python" alt="Python">
+                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postgresql/postgresql-original.svg" title="PostgreSQL" alt="PostgreSQL">
+                <img class="proj-ti" src="https://cdn.simpleicons.org/spotify/1DB954" title="Spotify API" alt="Spotify">
+                <img class="proj-ti" src="https://cdn.simpleicons.org/anthropic/ffffff" title="Anthropic Claude API" alt="Anthropic">
+                <img class="proj-ti" src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/flask/flask-original.svg" title="Flask" alt="Flask" style="filter:brightness(0) invert(1)">
+            </div>
         </div>
 
     </div>
@@ -702,20 +730,7 @@
             Currently working at Northcoders and actively looking for new challenges
             at the intersection of technology and creativity.
         </div>
-        <div class="ao-skills">
-            <span>Python</span>
-            <span>Flask</span>
-            <span>JavaScript</span>
-            <span>SQL</span>
-            <span>ETL Pipelines</span>
-            <span>Spotify API</span>
-            <span>Last.fm API</span>
-            <span>Three.js</span>
-            <span>Data Engineering</span>
-            <span>Ableton Live</span>
-            <span>Sound Design</span>
-            <span>Mixing & Mastering</span>
-        </div>
+        <div class="ao-skills" id="ao-skills-list"></div>
         <div class="ao-links">
             <a href="https://github.com/dimopapa91" target="_blank">GitHub ↗</a>
             <a href="https://www.linkedin.com/in/dimos-dimitrios-papageorgiou/" target="_blank">LinkedIn ↗</a>
@@ -946,6 +961,44 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
 })();
 
 // ═══════════════════════════════════════════════════════════════
+//  TECH ICONS
+// ═══════════════════════════════════════════════════════════════
+const DI = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/';
+const SI = 'https://cdn.simpleicons.org/';
+const TECH_ICONS = {
+    'Python':               { src: DI+'python/python-original.svg' },
+    'Flask':                { src: DI+'flask/flask-original.svg', inv: true },
+    'JavaScript':           { src: DI+'javascript/javascript-original.svg' },
+    'PostgreSQL':           { src: DI+'postgresql/postgresql-original.svg' },
+    'SQLite':               { src: DI+'sqlite/sqlite-original.svg' },
+    'Three.js':             { src: DI+'threejs/threejs-original.svg', inv: true },
+    'SQL':                  { src: DI+'postgresql/postgresql-original.svg' },
+    'Spotify API':          { src: SI+'spotify/1DB954' },
+    'Last.fm API':          { src: SI+'lastdotfm/D51007' },
+    'Deezer API':           { src: SI+'deezer/EF5466' },
+    'Ableton Live':         { src: SI+'abletonlive/ffffff' },
+    'Anthropic Claude API': { src: SI+'anthropic/ffffff' },
+};
+const ABOUT_SKILLS = [
+    'Python','Flask','JavaScript','SQL','PostgreSQL',
+    'Spotify API','Last.fm API','Three.js',
+    'ETL Pipelines','Data Engineering',
+    'Ableton Live','Sound Design','Mixing & Mastering'
+];
+function techPill(name) {
+    const ti = TECH_ICONS[name];
+    const icon = ti
+        ? `<img src="${ti.src}" alt="${name}"${ti.inv ? ' style="filter:brightness(0) invert(1)"' : ''}>`
+        : `<span class="tp-dot"></span>`;
+    return `<span class="tech-pill">${icon}<span>${name}</span></span>`;
+}
+// Populate About skills
+(function() {
+    const el = document.getElementById('ao-skills-list');
+    if (el) el.innerHTML = ABOUT_SKILLS.map(techPill).join('');
+})();
+
+// ═══════════════════════════════════════════════════════════════
 //  PROJECT DATA
 // ═══════════════════════════════════════════════════════════════
 const projectData = {
@@ -1017,7 +1070,7 @@ function openProject(key) {
                 <div class="po-cat">${p.category} · ${p.year}</div>
                 <div class="po-name">${p.name}</div>
                 <div class="po-desc">${p.description}</div>
-                <div class="po-tech">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
+                <div class="po-tech">${p.tech.map(t => techPill(t)).join('')}</div>
                 <div class="po-links">${p.links.map(l => `<a href="${l.href}" target="_blank">${l.label}</a>`).join('')}</div>
             </div>
             <div class="po-right">${mediaHTML}</div>

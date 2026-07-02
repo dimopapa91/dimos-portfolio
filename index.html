@@ -1226,18 +1226,29 @@ function loadGitHubActivity() {
     ghLoaded = true;
     fetch('https://api.github.com/users/dimopapa91/events/public')
         .then(r => r.ok ? r.json() : Promise.reject())
-        .then(events => {
-            const rows = [];
+        .then(async events => {
+            // latest push per repo (events API no longer includes commit messages)
+            const seen = new Set(), picks = [];
             for (const e of events) {
-                if (e.type !== 'PushEvent' || !e.payload.commits) continue;
-                const c = e.payload.commits[e.payload.commits.length - 1];
-                if (!c) continue;
+                if (e.type !== 'PushEvent' || !e.payload.head) continue;
+                if (seen.has(e.repo.name)) continue;
+                seen.add(e.repo.name);
+                picks.push(e);
+                if (picks.length >= 3) break;
+            }
+            const rows = [];
+            for (const e of picks) {
+                let msg = 'Pushed new commits';
+                try {
+                    const c = await fetch('https://api.github.com/repos/' + e.repo.name + '/commits/' + e.payload.head)
+                        .then(r => r.ok ? r.json() : null);
+                    if (c && c.commit) msg = c.commit.message.split('\n')[0];
+                } catch (_) {}
                 rows.push({
                     repo: e.repo.name.replace('dimopapa91/', ''),
-                    msg:  c.message.split('\n')[0],
+                    msg,
                     when: timeAgo(new Date(e.created_at))
                 });
-                if (rows.length >= 4) break;
             }
             if (!rows.length) return;
             document.getElementById('ao-activity-list').innerHTML = rows.map(r =>

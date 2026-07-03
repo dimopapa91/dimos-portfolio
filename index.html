@@ -404,23 +404,36 @@
         }
         .po-links a:hover { background: #fff; color: #000; }
 
-        /* Screenshot grid */
+        /* Screenshot gallery — hero + 2 below */
         .po-screenshots {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 5px;
             margin-top: 20px;
         }
-        .po-screenshots img,
-        .po-screenshot-placeholder {
-            width: 100%; aspect-ratio: 16/10;
-            object-fit: cover; border-radius: 2px;
+        .po-shot {
+            position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
         }
-        .po-screenshot-placeholder {
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Barlow', sans-serif; font-size: 9px;
-            letter-spacing: 0.12em; text-transform: uppercase;
-            opacity: 0.2;
+        .po-shot:first-child { grid-column: 1 / -1; }
+        .po-shot img {
+            width: 100%; display: block;
+            object-fit: cover; object-position: top;
+            transition: transform 0.5s ease;
+        }
+        .po-shot:first-child img { aspect-ratio: 16/9; }
+        .po-shot:not(:first-child) img {
+            aspect-ratio: 4/3;
+            filter: brightness(0.78) saturate(0.85);
+        }
+        .po-shot:hover img { transform: scale(1.025); }
+        .po-shot-label {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 22px 10px 7px;
+            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+            font-family: 'Barlow', sans-serif;
+            font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
         }
         .po-artwork-wrap {
             width: 100%; aspect-ratio: 1/1;
@@ -1132,7 +1145,8 @@ const projectData = {
             { label: 'GitHub', href: 'https://github.com/dimopapa91/music-insight-pipeline', icon: 'github' }
         ],
         color: '#7a2000',
-        images: ['assets/images/waveline-1.jpg','assets/images/waveline-2.jpg','assets/images/waveline-3.jpg','assets/images/waveline-4.jpg','assets/images/waveline-5.jpg']
+        images: ['assets/images/waveline-1.jpg','assets/images/waveline-4.jpg','assets/images/waveline-5.jpg'],
+        imageLabels: ['Dashboard · AI Insights · Live Stats','Taste Profile · AI Analysis','Live Music News · Pitchfork · NME']
     },
     blakenor: {
         name: 'Blakenor',
@@ -1169,8 +1183,13 @@ function openProject(key) {
 
     let mediaHTML = '';
     if (p.images) {
+        const labels = p.imageLabels || [];
         mediaHTML = `<div class="po-screenshots">
-            ${p.images.map(src => `<img src="${src}" alt="" onerror="this.style.display='none'">`).join('')}
+            ${p.images.map((src, i) => `
+            <div class="po-shot">
+                <img src="${src}" alt="" loading="lazy" onerror="this.parentElement.style.display='none'">
+                ${labels[i] ? `<div class="po-shot-label">${labels[i]}</div>` : ''}
+            </div>`).join('')}
         </div>`;
     } else if (p.artwork) {
         mediaHTML = `<div class="po-artwork-wrap"><img src="${p.artwork}" alt="${p.name}" onerror="this.style.opacity='0'"></div>`;

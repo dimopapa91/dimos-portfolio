@@ -404,36 +404,34 @@
         }
         .po-links a:hover { background: #fff; color: #000; }
 
-        /* Screenshot gallery — hero + 2 below */
+        /* Screenshot gallery — mobile-app screen strip (portrait shots, uncropped) */
         .po-screenshots {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
             margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .po-screenshots { grid-template-columns: repeat(3, 1fr); gap: 6px; }
         }
         .po-shot {
             position: relative; overflow: hidden;
             border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 3px;
+            background: #0d0400;
         }
-        .po-shot:first-child { grid-column: 1 / -1; }
         .po-shot img {
-            width: 100%; display: block;
-            object-fit: cover; object-position: top;
+            width: 100%; height: auto; display: block;
             transition: transform 0.5s ease;
         }
-        .po-shot:first-child img { aspect-ratio: 16/9; }
-        .po-shot:not(:first-child) img {
-            aspect-ratio: 4/3;
-            filter: brightness(0.78) saturate(0.85);
-        }
-        .po-shot:hover img { transform: scale(1.025); }
+        .po-shot:hover img { transform: scale(1.03); }
         .po-shot-label {
             position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 22px 10px 7px;
-            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+            padding: 20px 8px 6px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
             font-family: 'Barlow', sans-serif;
-            font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase;
-            color: rgba(255,255,255,0.65);
+            font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase;
+            color: rgba(255,255,255,0.7); white-space: nowrap;
         }
         .po-artwork-wrap {
             width: 100%; aspect-ratio: 1/1;
@@ -815,7 +813,7 @@
         <div class="ao-eyebrow">About</div>
         <div class="ao-name">Dimos<br>Papageorgiou</div>
         <div class="ao-bio">
-            Junior Software Developer based in Greater Manchester, UK.
+            Data engineer and software developer based in Greater Manchester, UK.
             I build data-driven web apps and pipelines by day — and craft
             electronic music under the name Blakenor by night.
             Graduate of the Northcoders Software Engineering Bootcamp (2023),
@@ -885,8 +883,8 @@
                 <img class="edu-logo" src="https://cdn.simpleicons.org/anthropic/ffffff" alt="Anthropic" onerror="this.style.display='none'">
                 <div>
                     <div class="edu-inst">Anthropic</div>
-                    <div class="edu-degree">Claude AI Developer Certification</div>
-                    <div class="edu-year">2024</div>
+                    <div class="edu-degree">Certificate of Completion — Claude 101</div>
+                    <div class="edu-year">2026</div>
                 </div>
             </div>
         </div>
@@ -1146,7 +1144,7 @@ const projectData = {
         ],
         color: '#7a2000',
         images: ['assets/images/waveline-1.jpg','assets/images/waveline-4.jpg','assets/images/waveline-5.jpg'],
-        imageLabels: ['Dashboard · AI Insights · Live Stats','Taste Profile · AI Analysis','Live Music News · Pitchfork · NME']
+        imageLabels: ['Dashboard','Taste Profile','Live Music News']
     },
     blakenor: {
         name: 'Blakenor',

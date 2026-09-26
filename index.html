@@ -437,15 +437,17 @@
         }
         .po-links a:hover { background: #fff; color: #000; }
 
-        /* Screenshot gallery — mobile-app screen strip (portrait shots, uncropped) */
+        /* Screenshot gallery — wide desktop shots: the first runs full width,
+           the rest pair up underneath (uncropped) */
         .po-screenshots {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 8px;
             margin-top: 20px;
         }
+        .po-shot:first-child { grid-column: 1 / -1; }
         @media (max-width: 768px) {
-            .po-screenshots { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .po-screenshots { gap: 6px; }
         }
         .po-shot {
             position: relative; overflow: hidden;
@@ -1129,7 +1131,7 @@ const TECH_ICONS = {
     'Power BI':             { src: SI+'powerbi/F2C811' },
     'Firebase':             { src: DI+'firebase/firebase-plain.svg' },
     'MusicBrainz':          { src: SI+'musicbrainz/BA478F' },
-    'x402 · USDC on Base':  { src: SI+'coinbase/0052FF' },
+    'x402 · USDC on Base':  null,
     'Railway':              { src: SI+'railway/ffffff' },
     'Sentry':               { src: SI+'sentry/ffffff' },
     'pytest':               { src: SI+'pytest/0A9EDC' },

@@ -86,9 +86,10 @@ cd ~/dimos-portfolio && git add index.html && git commit -m "your message" && gi
 assets/
   Dimos-Papageorgiou-CV.pdf        # downloadable from nav
   images/
-    waveline-1.jpg                  # dashboard screenshot (hero)
-    waveline-4.jpg                  # taste profile screenshot
-    waveline-5.jpg                  # music news screenshot
+    waveline-home.jpg               # Waveline homepage (2026 redesign, hero shot)
+    waveline-artist.jpg             # Waveline artist page
+    waveline-genres.jpg             # Waveline genre page
+    waveline-1..5.jpg               # older Waveline screenshots (no longer referenced)
     colours-ep.jpg                  # Blakenor album artwork
     education/                      # cert/degree images
 ```

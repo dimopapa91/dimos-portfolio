@@ -751,11 +751,11 @@
         <div class="p-item">
             <a class="project-name" href="#"
                data-project="waveline"
-               data-color="#7a2000"
-               data-label="Music analytics platform">
+               data-color="#3a2a78"
+               data-label="Music data platform">
                 Waveline
             </a>
-            <span class="project-tag">Music Analytics · Data Engineering · 2024–2025</span>
+            <span class="project-tag">Music Data Platform · Data Engineering · 2024–2026</span>
         </div>
 
         <div class="p-item">
@@ -1128,6 +1128,12 @@ const TECH_ICONS = {
     'REST APIs':            { src: DI+'fastapi/fastapi-original.svg', inv: false },
     'Power BI':             { src: SI+'powerbi/F2C811' },
     'Firebase':             { src: DI+'firebase/firebase-plain.svg' },
+    'MusicBrainz':          { src: SI+'musicbrainz/BA478F' },
+    'x402 · USDC on Base':  { src: SI+'coinbase/0052FF' },
+    'Railway':              { src: SI+'railway/ffffff' },
+    'Sentry':               { src: SI+'sentry/ffffff' },
+    'pytest':               { src: SI+'pytest/0A9EDC' },
+    'GitHub Actions':       { src: SI+'githubactions/2088FF' },
 };
 const ABOUT_SKILLS = [
     'Python','Flask','JavaScript','PostgreSQL','SQL',
@@ -1168,16 +1174,17 @@ function techPill(name) {
 const projectData = {
     waveline: {
         name: 'Waveline',
-        year: '2024–2025', category: 'Music Analytics · Data Engineering',
-        description: 'A real-time music discovery platform and community, powered by its own automated data-engineering backbone. Search any artist for instant insights like listener counts, top tracks, similar artists, and AI-generated analysis, then build a taste profile, compare artists, and browse live music news. Members get their own accounts and public profiles, and can share thoughts and discoveries in a social feed with follows, likes, comments, and notifications. Under the hood, a fully automated ETL pipeline ingests artist and track metadata from Spotify, Last.fm, and Deezer, runs AI analysis via the Anthropic Claude API, and stores structured results in PostgreSQL with JSONB, scheduled daily via APScheduler, with genre trend tracking and a weekly automated email digest.',
-        tech: ['Python', 'Flask', 'PostgreSQL', 'Spotify API', 'Last.fm API', 'Deezer API', 'Anthropic Claude API', 'REST APIs', 'ETL Pipelines', 'APScheduler'],
+        year: '2024–2026', category: 'Music Data Platform · Data Engineering',
+        description: 'A live music data platform at wearewaveline.com. A Python ETL pipeline pulls listening data from Last.fm, resolves each artist by their MusicBrainz ID across Spotify and Deezer (so two artists who share a name never get mixed up), adds an AI-written analysis with the Anthropic Claude API, and stores it in PostgreSQL with JSONB. The Flask app serves it to people, through artist pages, genre pages, head-to-head comparisons, a taste profile and a community feed, and to AI agents, through a pay-per-request API settled in USDC on Base via the x402 protocol, live on mainnet. It runs in production on Railway with gunicorn, a separate cron service for the weekly email digest, Sentry error monitoring, rate limiting and caching, and over 800 pytest tests that run in GitHub Actions on every pull request.',
+        tech: ['Python', 'Flask', 'PostgreSQL', 'ETL Pipelines', 'Last.fm API', 'Spotify API', 'Deezer API', 'MusicBrainz', 'Anthropic Claude API', 'x402 · USDC on Base', 'Railway', 'Sentry', 'pytest', 'GitHub Actions'],
         links: [
-            { label: 'Live Site', href: 'https://music-insight-pipeline-production.up.railway.app', icon: 'globe' },
-            { label: 'GitHub', href: 'https://github.com/dimopapa91/music-insight-pipeline', icon: 'github' }
+            { label: 'Live Site', href: 'https://wearewaveline.com', icon: 'globe' },
+            { label: 'GitHub', href: 'https://github.com/dimopapa91/music-insight-pipeline', icon: 'github' },
+            { label: 'Agent API', href: 'https://github.com/dimopapa91/music-insight-pipeline/blob/main/docs/x402.md', icon: 'github' }
         ],
-        color: '#7a2000',
-        images: ['assets/images/waveline-1.jpg','assets/images/waveline-4.jpg','assets/images/waveline-5.jpg'],
-        imageLabels: ['Dashboard','Taste Profile','Live Music News']
+        color: '#3a2a78',
+        images: ['assets/images/waveline-home.jpg','assets/images/waveline-artist.jpg','assets/images/waveline-genres.jpg'],
+        imageLabels: ['Homepage','Artist page','Genre page']
     },
     blakenor: {
         name: 'Blakenor',
@@ -1260,13 +1267,14 @@ function timeAgo(d) {
 function loadWavelineStats() {
     const el = document.getElementById('po-live');
     if (!el) return;
-    fetch('https://music-insight-pipeline-production.up.railway.app/api/stats')
+    fetch('https://wearewaveline.com/api/stats')
         .then(r => r.ok ? r.json() : Promise.reject())
         .then(s => {
+            // Artist count only: the raw search count is inflated by bots,
+            // which is why Waveline's own homepage stopped showing it.
             const bits = [];
-            if (s.total_searches != null) bits.push(s.total_searches + ' searches');
-            if (s.unique_artists != null) bits.push(s.unique_artists + ' artists tracked');
-            if (s.last_run) bits.push('pipeline last ran ' + s.last_run);
+            if (s.unique_artists != null) bits.push(Number(s.unique_artists).toLocaleString('en-GB') + ' artists analysed');
+            if (s.last_run) bits.push('last analysis ' + s.last_run);
             if (!bits.length) return;
             el.innerHTML = '<span class="live-dot"></span>Live — ' + escapeHtml(bits.join(' · '));
             el.style.display = 'flex';
